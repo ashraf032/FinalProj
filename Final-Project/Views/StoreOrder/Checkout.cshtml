@@ -1,0 +1,340 @@
+﻿@model OrderVM
+
+@{
+    ViewData["Title"] = "Checkout";
+    double TotalPrice = 0;
+    double total;
+    double price;
+}
+
+
+@section Css{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+}
+
+<section id="map">
+    <div class="google-map">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d194472.67477086885!2d49.71487267040972!3d40.394769471439965!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40307d6bd6211cf9%3A0x343f6b5e7ae56c6b!2sBaku%2C%20Azerbaijan!5e0!3m2!1sen!2s!4v1647127907978!5m2!1sen!2s"
+                width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy">
+        </iframe>
+
+    </div>
+</section>
+<div class="container">
+    <div class="order-information row">
+        <div class="order-details col-md-7">
+            <h3>Please Chose delivery method</h3>
+            <div class="isdelivery">
+                <div class="delivery-picukp">
+                    <div id="delivery">
+                        delivery
+                    </div>
+
+                    <div id="pickup">
+                        pickup
+                    </div>
+                </div>
+
+                <div class="center">
+                    <input type="checkbox" id="cbx" style="display:none" />
+                    <label id="isdelivery" for="cbx" class="toggle"><span></span></label>
+                </div>
+
+            </div>
+            <div onclick="document.getElementById('id13').style.display='block'" style="display: none;"
+                 id="adresinfo" class="title">
+                <div class="icon">
+                    <svg viewBox="0 0 24 24" class="ic_m_delivery_bike_courier_svg__rtlIcon"
+                         xmlns="http://www.w3.org/2000/svg" style="color: rgb(32, 33, 37); width: 24px;">
+                        <path fill="none" d="M0 0h24v24H0z"></path>
+                        <path fill="currentColor"
+                              d="M2.258 5.278l3.02-3.02a.898.898 0 011.273 0l1.303 1.303a.497.497 0 010 .707L4.268 7.854h-.001a.51.51 0 01-.706 0L2.258 6.551a.901.901 0 010-1.273zm.596 3.283c.283.283.66.439 1.06.439a1.49 1.49 0 001.061-.439l3.586-3.586A1.49 1.49 0 009 3.914c0-.4-.156-.777-.439-1.06L7.258 1.551a1.9 1.9 0 00-2.687 0l-3.02 3.02a1.902 1.902 0 000 2.687l1.303 1.303zM14.5 1c.827 0 1.5.673 1.5 1.5S15.327 4 14.5 4 13 3.327 13 2.5 13.673 1 14.5 1zm0 4C15.879 5 17 3.879 17 2.5 17 1.122 15.879 0 14.5 0A2.503 2.503 0 0012 2.5C12 3.879 13.122 5 14.5 5zm-2.507 14.583a.497.497 0 01-.491.417l-.086-.007a.492.492 0 01-.322-.202.494.494 0 01-.087-.374l.867-5.2a.499.499 0 00-.323-.552l-4.958-1.8A.91.91 0 016 11c0-.28.119-.549.341-.753l3.953-3.954a.98.98 0 01.559-.275l.184-.011c.288.026.501.117.725.333l5.027 3.752a.502.502 0 01.115.703.513.513 0 01-.697.11l-3.696-2.689a1.097 1.097 0 00-1.425.112l-1.749 1.749c-.279.28-.394.677-.308 1.062.085.386.358.697.729.831l2.913 1.06a.5.5 0 01.322.552l-1 6.001zm1.02-7.493L10.1 11.031a.143.143 0 01-.095-.109.143.143 0 01.04-.138l1.749-1.749a.101.101 0 01.129-.01l3.695 2.688c.643.468 1.627.314 2.095-.331.236-.324.331-.721.268-1.116a1.493 1.493 0 00-.599-.979l-4.968-3.701c-.335-.335-.769-.528-1.333-.577l-.341.016a1.978 1.978 0 00-1.154.561L5.651 9.524A2.014 2.014 0 005 11.019c0 .797.503 1.514 1.252 1.786l4.568 1.658-.799 4.79a1.499 1.499 0 102.959.494l1-6.001a1.5 1.5 0 00-.967-1.656zM18 12.5a.5.5 0 01.5-.5.5.5 0 00.5-.5.5.5 0 011 0c0 .827-.673 1.5-1.5 1.5a.5.5 0 01-.5-.5zM19.5 23c-1.929 0-3.5-1.57-3.5-3.5a3.49 3.49 0 011.712-2.992l1.327 3.185a.5.5 0 00.923-.385l-1.328-3.186c.279-.072.565-.122.866-.122 1.93 0 3.5 1.57 3.5 3.5S21.43 23 19.5 23zm0-8c-.437 0-.851.082-1.25.199l-.788-1.891a.502.502 0 00-.365-.299.503.503 0 00-.45.138l-2 2a.5.5 0 00.707.707l1.472-1.472.501 1.202C15.947 16.354 15 17.811 15 19.5c0 2.482 2.019 4.5 4.5 4.5 2.482 0 4.5-2.018 4.5-4.5 0-2.481-2.018-4.5-4.5-4.5zM5.383 19l1.319-2.198A3.478 3.478 0 017.949 19H5.383zM4.5 23C2.57 23 1 21.43 1 19.5S2.57 16 4.5 16c.48 0 .937.098 1.353.273l-1.782 2.97A.502.502 0 004.5 20h3.449c-.245 1.692-1.691 3-3.449 3zm2.72-7.061l.709-1.182a.501.501 0 00-.858-.514l-.705 1.175A4.45 4.45 0 004.5 15 4.505 4.505 0 000 19.5C0 21.982 2.019 24 4.5 24 6.982 24 9 21.982 9 19.5c0-1.455-.705-2.738-1.78-3.561z">
+                        </path>
+                    </svg>
+                </div>
+                <div class="text">
+                    Please add delivery adress
+                </div>
+
+                <div class="right-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="ListItem-module__caret___y7u1I"
+                         viewBox="0 0 24 24">
+                        <path fill="none" d="M0 0h24v24H0z"></path>
+                        <path fill="currentColor"
+                              d="M8.5 20a.5.5 0 01-.365-.841L14.815 12 8.136 4.841a.5.5 0 11.729-.681l7 7.5c.18.192.18.49 0 .682l-7 7.5a.494.494 0 01-.365.16">
+                        </path>
+                    </svg>
+                </div>
+            </div>
+            <div class="seleted-items">
+                <h2>Selected Items</h2>
+                @foreach (var item in Model.BasketItems)
+                {
+                    {
+
+                        TotalPrice += (item.Store.CampaignId == null ? item.Count * item.Product.Price : item.Count * (item.Product.Price * (100 - item.Store.Campaign.CampaignPercent) / 100));
+
+                    }
+                    <div class="id" data-id="@item.StoreId"></div>
+                    <div class="item">
+                        <div class="name-price-count">
+                            <div class="count-name">
+                                <div class="count">
+                                    @item.Count x
+
+                                </div>
+                                <div style="margin-left:2%;" class="name">
+                                    <h5>@item.Product.Name</h5>
+                                </div>
+
+                            </div>
+                            <div class="description">
+                                <p style="color:gray;">@item.Product.Description</p>
+                            </div>
+                            <div class="price">
+                                <p style="display:none;">@(price= item.Store.CampaignId==null?item.Product.Price:item.Product.Price*(100-item.Store.Campaign.CampaignPercent)/100)</p>
+                                AZN: <del>@item.Product.Price</del>  @price.ToString("f2")   
+                            </div>
+                        </div>
+                        <div style="width:45%; height:12rem;" class="img">
+                            <img style="height:100%; width:100%;" src="~/assets/image/@item.Product.Image" alt="">
+                        </div>
+                    </div>
+                }
+
+            </div>
+            <a asp-controller="store" asp-action="details" asp-route-id="@Model.Store.Id" class="add-more">
+                <div class="text-icon">
+                    <p href="">Addd More Item</p>
+                    <i class="fa-solid fa-plus"></i>
+                </div>
+            </a>
+            <div onclick="document.getElementById('id11').style.display='block'" style="margin-bottom: 14%; margin-top: 10px;" href="" class="chose-payment ">
+                <div class="text-icon">
+                    <p href="">Choose Payment Method</p>
+                    <i class="fa-solid fa-chevron-right"></i>
+                </div>
+
+            </div>
+            <div class="login-page">
+                <div style="z-index: 900000000;" id="id11" class="modal">
+                    <div class="modal-content animate" method="post">
+                        <div id="paymentmethod">
+                            <div class="cart-cash">
+                                <div id="card">
+                                    card
+                                </div>
+
+                                <div id="cash">
+                                    cash
+                                </div>
+                            </div>
+
+                            <div class="center">
+                                <input type="checkbox" id="cba" style="display:none" />
+                                <label id="iscash" for="cba" class="togle"><span></span></label>
+                            </div>
+
+
+
+
+                        </div>
+                        <div class="creditCardForm">
+                            <div style="display: none;" class="payment">
+                                <form>
+                                    <div class="form-group owner">
+                                        <label for="owner">Owner</label>
+                                        <input type="text" class="form-control" id="owner">
+                                    </div>
+                                    <div class="form-group CVV">
+                                        <label for="cvv">CVV</label>
+                                        <input type="text" class="form-control" id="cvv">
+                                    </div>
+                                    <div class="form-group" id="card-number-field">
+                                        <label for="cardNumber">Card Number</label>
+                                        <input type="text" class="form-control" id="cardNumber">
+                                    </div>
+                                    <div class="form-group" id="expiration-date">
+                                        <label>Expiration Date</label>
+                                        <select class="mb-2">
+                                            <option value="01">January</option>
+                                            <option value="02">February </option>
+                                            <option value="03">March</option>
+                                            <option value="04">April</option>
+                                            <option value="05">May</option>
+                                            <option value="06">June</option>
+                                            <option value="07">July</option>
+                                            <option value="08">August</option>
+                                            <option value="09">September</option>
+                                            <option value="10">October</option>
+                                            <option value="11">November</option>
+                                            <option value="12">December</option>
+                                        </select>
+                                        <select class="mb-2">
+                                            <option value="16"> 2016</option>
+                                            <option value="17"> 2017</option>
+                                            <option value="18"> 2018</option>
+                                            <option value="19"> 2019</option>
+                                            <option value="20"> 2020</option>
+                                            <option value="21"> 2021</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group" id="pay-now">
+                                        <div onclick="document.getElementById('id11').style.display='none'" style="background-color: #009DE0; width: 100%;color: white;" class="btn btn-default" id="confirm-purchase">Save</div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="z-index: 9000000000;" id="id13" class="modal">
+                    <form class="modal-content animate" action="/action_page.php" method="post">
+
+                        <div class="container">
+                            <div class="cancel_button">
+                                <div onclick="document.getElementById('id13').style.display='none'" class="cancelbtn">
+                                    X
+                                </div>
+                            </div>
+
+                            <h4>Enter Adres</h4>
+                            <textarea class="form-control enter-adres" cols="55" rows="5">
+            
+            
+                         </textarea>
+
+                            <div onclick="document.getElementById('id13').style.display='none'"
+                                 style="background-color: #009DE0; text-align: center;" class="submit_button"
+                                 type="submit">Save</div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        <div style="z-index:1 !important;" class="about-order col-md-5">
+            <form action="">
+                <h3>Prices in AZN, incl. taxes</h3>
+                <div class="info-price">
+                    <div style="display:none;" class="delivery-price">
+                        <p>Delivery</p>
+                        <p>AZN:2.00</p>
+                    </div>
+                    <div class="total-price">
+                        <p>Total-Price</p>
+                        <p style="display:none;">
+                            @(total=TotalPrice+2);
+                        </p>
+                        <p style="display:none;" id="totalwithdelivery">
+
+                            AZN @total.ToString("f2")
+                        </p>
+                        <p id="totlnodlivery">
+                            Azn  @TotalPrice.ToString("f2")
+                        </p>
+                    </div>
+                    <button class="order-button" type="Submit">
+                        Order
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+@section Script{
+    <script src="~/assets/js/checkout.js"></script>
+
+
+    <script>
+        var modal2 = document.getElementById('id11');
+        var modal = document.getElementById('id13');
+        window.onclick = function (event) {
+
+            if (event.target == modal2) {
+                modal2.style.display = "none";
+            } if (event.target == modal) {
+                ``
+                modal.style.display = "none";
+            }
+
+        }
+
+    </script>
+
+}
+@section ScriptSlider{
+    @*<script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>*@
+    <script>
+        //var connection = new signalR.HubConnectionBuilder().withUrl("/OrderHub").build()
+        //connection.start()
+        var isddeliverybtn = document.getElementById("isdelivery")
+
+        isddeliverybtn.addEventListener("click", function (e) {
+            let Isdelivery = $("#cbx").is(":checked") ? "true" : "false";
+            var totalwithdelivery = document.getElementById("totalwithdelivery")
+            var totlnodlivery = document.getElementById("totlnodlivery")
+            var deliveryprice = document.querySelector(".delivery-price")
+            console.log("a")
+            if (Isdelivery == "false") {
+                totalwithdelivery.style.display = "block"
+                totlnodlivery.style.display = "none"
+                deliveryprice.style.display = "flex"
+            } else {
+                totalwithdelivery.style.display = "none"
+                totlnodlivery.style.display = "block"
+                deliveryprice.style.display = "none"
+            }
+
+
+        })
+        $(".order-button").click(function (e) {
+            e.preventDefault()
+            var button = document.querySelector(".order-button")
+            button.innerHTML = '  <i class="fa fa-circle-o-notch fa-spin"></i> wait for Store response'
+            button.disabled = true;
+            button.style.backgroundColor = "gray";
+            let Isdelivery = $("#cbx").is(":checked") ? "true" : "false";
+            var Adress;
+            if (Isdelivery) {
+                Adress = $(".enter-adres").val()
+            }
+            let IsCard = $("#cba").is(":checked") ? "true" : "false";
+            var Id = document.querySelector(".id")
+            var StoreId = Id.getAttribute("data-id")
+            Connection.invoke("OrderProductStore", StoreId, Isdelivery, Adress, IsCard)
+          
+        })
+        Connection.on("orderaccept", function () {
+            Swal.fire({
+                position: 'bottom-center',
+                icon: 'success',
+                title: 'Store Acepted your order',
+                showConfirmButton: false,
+                timer: 2500
+            })
+            setTimeout(myfunction, 2000)
+            function myfunction() {
+                location.href = "https://localhost:44378/"
+            }
+
+            var button = document.querySelector(".order-button")
+            button.style.display = "none"
+        })
+        Connection.on("rejected", function myfunction(data) {
+            Swal.fire({
+                icon: 'error',
+                text: 'Order Rejected',
+
+            })
+            setTimeout(myfunction, 1500)
+            function myfunction() {
+                location.href = `https://localhost:44378/store/details/${data}`
+            }
+
+        })
+    </script>
+}
+

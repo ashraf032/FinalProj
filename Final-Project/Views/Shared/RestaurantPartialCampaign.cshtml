@@ -1,0 +1,20 @@
+﻿@model List<Restuorant>
+
+@foreach (Restuorant restuorant in Model)
+{
+    <div class="item ">
+        <a href="#" class="card ">
+            <div class="img">
+                <img src="~/assets/image/@restuorant.Image" alt="jhk">
+                <div class="desciription">
+                    <p class="name-second-category">
+                        @restuorant.Name
+                    </p>
+                    <p class="discaount-precent">
+                        @restuorant.Campaign.CampaignPercent %
+                    </p>
+                </div>
+            </div>
+        </a>
+    </div>
+}

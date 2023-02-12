@@ -1,0 +1,140 @@
+﻿@model List<Order>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container">
+
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="card" style="width: 18rem; height:auto;">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Client Name @item.AppUser.FullName</li>
+                    @if (item.RestuorantId != null)
+                    {
+                        <li class="list-group-item">Restaurant Adress: @item.Restuorant.Adress</li>
+                    }
+                    else
+                    {
+                        <li class="list-group-item">Store Adress: @item.Store.Adress</li>
+                    }
+
+                    <li class="list-group-item">Adress: @item.Adress</li>
+                    <li class="list-group-item">TotalPrice @item.TotalPrice</li>
+                </ul>
+                <div class="accept-delivery">
+                    @if (item.IsCourierFind == false)
+                    {
+                        <div data-id="@item.Id" style="color:white; width:100%; " class="btn btn-success accept ">Accept</div>
+                    }
+                    else
+                    {
+                        <div data-id="@item.Id" style="color:white;" class="btn btn-primary completed">Order Completed</div>
+                    }
+                </div>
+            </div>
+        }
+
+
+
+    </div>
+
+</div>
+
+
+@section Script{
+
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+
+        var Connection = new signalR.HubConnectionBuilder().withUrl("/orderhub").build()
+        Connection.start()
+        Connection.on("isacceptdelivery", function (data) {
+
+            OrderShow(data.id)
+        })
+        Connection.on("exsist", function () {
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Alrady Exsist Courier',
+
+            })
+            setTimeout(myfunction, 1500)
+            function myfunction() {
+                location.reload(true)
+            }
+
+        })
+        function OrderShow(id) {
+            var div = document.createElement("div")
+            div.style.width = "18rem"
+            div.style.height = "auto"
+            div.classList.add("card")
+            var container = document.querySelector(".row")
+            $.ajax({
+                url: "/bussines/courier/showorder",
+                data: {
+                    orderid: id
+                },
+                dataType: 'json',
+                type: "post",
+                success: function (data) {
+                    console.log(data)
+                    if (data.restuorant != null) {
+                        div.innerHTML = `
+                                     <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">Client Name ${data.appUser.fullName}</li>
+                                        <li class="list-group-item">Restaurant Adress: ${data.restuorant.adress}</li>
+                                        <li class="list-group-item">Adress: ${data.adress}</li>
+                                        <li class="list-group-item">TotalPrice :${data.totalPrice}</li>
+                                    </ul>
+                                     <div class="accept-delivery">
+                                         <div data-id="${data.id}" style="color:white; width:100%; " class="btn btn-success accept ">Accept</div>
+                                          </div>
+`
+
+                    } else {
+                        div.innerHTML = `
+                                     <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">Client Name ${data.appUser.fullName}</li>
+                                        <li class="list-group-item">Store Adress: ${data.store.adress}</li>
+                                        <li class="list-group-item">Adress: ${data.adress}</li>
+                                        <li class="list-group-item">TotalPrice :${data.totalPrice}</li>
+                                    </ul>
+                                     <div class="accept-delivery">
+                                         <div data-id="${data.id}" style="color:white; width:100%; " class="btn btn-success accept ">Accept</div>
+                                          </div>
+`
+                    }
+                    container.appendChild(div)
+                }
+            })
+        }
+
+        $(document).on("click", ".accept", function (e) {
+            var orderid = $(e.target).attr('data-id')
+            Connection.invoke("CourierWasAppointed", orderid)
+            var a = $(this).parent()
+            a.html(`<div data-id="${orderid}" style="color:white;" class="btn btn-primary completed" >Order Completed</div>
+`)
+
+        })
+
+        $(document).on("click", ".completed", function (e) {
+            var orderid = $(e.target).attr('data-id')
+            Connection.invoke("OrderCompleted", orderid)
+            var a = $(this).parent().parent()
+            a.css("display", "none")
+
+        })
+
+
+    </script>
+
+}
+
+

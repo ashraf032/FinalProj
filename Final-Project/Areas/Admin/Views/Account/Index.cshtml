@@ -1,0 +1,81 @@
+﻿@model List<AppUser>
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+
+<div class="container">
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">FullName</th>
+                
+                <th scope="col">Role</th>
+                <th scope="col">Edit</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var admin in Model)
+            {
+                <tr>
+                    <td>@admin.FullName</td>
+                    <td>@admin.Role</td>
+                    
+                    <td><a asp-controller="account" asp-action="editadmin" asp-route-Id="@admin.Id"><i class="fas fa-edit text text-primary"></i></a></td>
+                </tr>
+            }
+
+
+
+
+
+        </tbody>
+
+
+
+    </table>
+
+    <div>
+        <nav aria-label="...">
+            <ul class="pagination">
+
+                @if (ViewBag.CurrentPage == 1)
+                {
+
+
+                    <li class="page-item disabled">
+                        <a style="pointer-events:none" class="page-link">Previous</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item ">
+                        <a asp-controller="account" asp-action="index" asp-route-page="@(ViewBag.CurrentPage-1)" class="page-link">Previous</a>
+                    </li>
+                }
+                @for (int i = 1; i <= ViewBag.TotalPage; i++)
+                {
+                    <li class="page-item  @(ViewBag.CurrentPage == i ?  "active" : "")" style="@(ViewBag.CurrentPage==i ? "pointer-events:none" :"")"><a class="page-link" asp-controller="account" asp-action="index" asp-route-page="@i">@i</a></li>
+                }
+
+                @if (ViewBag.TotalPage == ViewBag.CurrentPage)
+                {
+                    <li class="page-item disabled">
+                        <a style="pointer-events:none" class="page-link" asp-controller="account" asp-action="index" asp-route-page="@(ViewBag.CurrentPage)">Next</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item">
+                        <a class="page-link" asp-controller="account" asp-action="index" asp-route-page="@(ViewBag.CurrentPage+1)">Next</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    </div>
+    <a style="display: block; text-decoration: none; color: white; width: 100%; " asp-controller="account" asp-action="admincreate"> <div style="width:100%; " class="btn btn-outline-success">Create Admin </div></a>
+
+</div>

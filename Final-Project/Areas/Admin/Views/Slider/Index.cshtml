@@ -1,0 +1,75 @@
+﻿@model List<Slider>
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="container">
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">SLiderImage</th>
+                <th scope="col">SliderTitle</th>
+                <th scope="col">SliderDescription</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Slider slider in Model)
+            {
+                <tr>
+                    <th scope="row">@slider.Id</th>
+                    <td><img src="~/assets/image/@slider.Image" style="object-fit: contain; width: 100px; height: 30px;"></td>
+
+                    @if (slider.SliderText.Length > 50)
+                    {
+                        <td>
+                            @Html.Raw(slider.SliderText.Substring(0, 50)) ...
+                        </td>
+                    }
+                    else
+                    {
+                        <td>@Html.Raw(slider.SliderText)</td>
+                    }
+                    <td><a asp-controller="slider" asp-action="edit" asp-route-id="@slider.Id"><i class="fas fa-edit text text-primary"></i></a></td>
+                    <td><a class=" delete-item" asp-controller="slider" asp-action="delete" asp-route-id="@slider.Id"><i class="fas fa-trash text text-danger"></i></a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div>
+        <a style="display: block; text-decoration: none; color: white; width: 100%; height: 100%" asp-controller="slider" asp-action="create"> <div style="width:100%; " class="btn btn-outline-success">Create Slide </div></a>
+    </div>
+</div>
+@section Scripts{
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        $(".delete-item").click(function (e) {
+            e.preventDefault()
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this imaginary file!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        var link = $(this).attr("href")
+                        fetch(link).then(response => response.json()).then(data => {
+                            if (data.status == 200) {
+                                location.reload(true)
+                            }
+                        }
+                        );
+                        swal("Poof! Your imaginary file has been deleted!", {
+                            icon: "success",
+                        });
+                    } else {
+                        swal("Your imaginary file is safe!");
+                    }
+                });
+        })
+    </script>
+}
+

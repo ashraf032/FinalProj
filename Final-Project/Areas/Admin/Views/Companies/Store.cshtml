@@ -1,0 +1,97 @@
+﻿@model StoreCourierRestaurant
+@{
+    ViewData["Title"] = "Store";
+}
+
+<div class="container">
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Iamge</th>
+                <th scope="col">Name</th>
+                <th scope="col">Status</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @for (int i = 0; i < Model.Stores.Count; i++)
+            {
+                <tr>
+
+                    <th scope="row">@Model.Stores[i].Id</th>
+                    <td><img src="~/assets/image/@Model.Stores[i].Image" style="object-fit: contain; width: 100px; height: 30px;" /></td>
+                    <td>@Model.Stores[i].Name</td>
+                    @if (Model.Users[i].LoginStatus)
+                    {
+
+
+                        <td><a class="changestatus" asp-controller="companies" asp-action="changestatus" asp-route-userid="@Model.Users[i].Id"><div onMouseOver="this.style.color='white'" onMouseOut="this.style.color='green'" class="btn btn-outline-success">There is access</div></a></td>
+                    }
+                    else
+                    {
+                        <td><a class="changestatus" asp-controller="companies" asp-action="changestatus" asp-route-userid="@Model.Users[i].Id"><div onMouseOver="this.style.color='white'" onMouseOut="this.style.color='red'" class="btn btn-outline-danger">There is not access</div></a></td>
+                    }
+                    <td><a class=" delete-item" asp-controller="companies" asp-action="delete" asp-route-userid="@Model.Users[i].Id"><i class="fas fa-trash text text-danger"></i></a></td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+</div>
+
+@section Script{
+    <script>
+        var clicks = document.querySelectorAll(".changestatus")
+        clicks.forEach(btn => {
+            btn.addEventListener("click", function (e) {
+                e.preventDefault()
+                var link = btn.getAttribute("href")
+                fetch(link).then(response => response.json()).then(data => {
+                    if (data.status == 200) {
+                        btn.innerHTML = `<div onMouseOver="this.style.color='white'" onMouseOut="this.style.color='red'" class="btn btn-outline-danger">There is not access</div>`
+                    } else {
+                        btn.innerHTML = `<div onMouseOver="this.style.color='white'" onMouseOut="this.style.color='green'" class="btn btn-outline-success">There is  access</div>`
+                    }
+                })
+            })
+        })
+
+    </script>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        $(".delete-item").click(function (e) {
+            e.preventDefault()
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this imaginary file!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        var link = $(this).attr("href")
+                        fetch(link).then(response => response.json()).then(data => {
+                            console.log(data)
+                            if (data.status == 200) {
+                                //$(this).parent().parent().css("display", "none")
+                                location.reload(true)
+                            }
+                        }
+                        );
+                        swal("Poof! Your imaginary file has been deleted!", {
+                            icon: "success",
+                        });
+                    } else {
+                        swal("Your imaginary file is safe!");
+                    }
+                });
+        })
+    </script>
+}
+
+

@@ -1,0 +1,1087 @@
+﻿@model DetailsVM
+
+@{
+    Layout = null;
+    string price;
+    string totalprice;
+}
+<div style="display:none; position:absolute;right:3%;   width:20%; z-index:999; text-align:center; position:fixed; top: 4%; z-index:999999999;" id="mydiv" class="alert alert-primary">Added to the basket</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+          integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="~/assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/assets/css/main.css">
+</head>
+
+<body>
+    <div class="details">
+        <section id="baskets">
+            @if (User.Identity.IsAuthenticated && User.IsInRole("User"))
+            {
+                <div id="id03" class="modal">
+                    <div class="modal-content animate">
+                        <div class="cancel_button">
+                            <div onclick="document.getElementById('id03').style.display='none'" class="cancelbtn">
+                                X
+                            </div>
+                        </div>
+                        <div class="orders">
+                            <ul id="basket-items">
+                                @foreach (var item in Model.BasketVM.BasketItemVMs)
+                                {
+                                    <li class="basket-item-li">
+                                        <div id="count-mob" style="display:none" class="count ">
+                                            <p>
+                                                @item.Count
+                                            </p>
+                                        </div>
+                                        <div class="input-group plus-minus-input">
+                                            <div id="btn-in-de" class="input-group-button">
+                                                <button type="button" class="button hollow circle item-decrease " data-quantity="minus"
+                                                        data-field="quantity">
+                                                    <i id="@item.Product.Id" class="fa fa-minus" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                            <p class="input-group-field">@item.Count</p>
+                                            <div class="input-group-button">
+                                                <button type="button" class="button hollow circle item-increase" data-quantity="plus"
+                                                        data-field="quantity">
+                                                    <i id=" @item.Product.Id" class="fa fa-plus" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="name-price ">
+                                            <div class="name">
+                                                @item.Product.Name
+                                            </div>
+                                            <div class="price">
+                                                <p style="display:none">
+                                                    @(price=item.Price.ToString())
+                                                </p>
+                                                AZN @(price.Length>4?price.Substring(0,5):price)
+                                            </div>
+                                        </div>
+                                        <div style="height:3rem;" class="image ">
+                                            <img style="height:100%;" src="~/assets/image/@item.Product.Image" alt="">
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+
+                        <div><b>Your Order</b></div>
+                        <a asp-controller="restuorantorder" asp-action="checkout" asp-route-id="@Model.Restuorant.Id" class="submit_button">
+                            <div class="basket">
+                                <div class="info-basket ">
+                                    <div class="count total-count">@Model.BasketVM.Count</div>
+
+                                    <div class="view-order">
+                                        Check Out
+                                    </div>
+                                    <div class="totalprice">
+                                        <p style="display:none;">
+                                            @(totalprice=Model.BasketVM.TotalPrice.ToString())
+                                        </p>
+                                        Azn: @(totalprice.Length>4? totalprice.Substring(0,5): totalprice)
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+
+
+                    </div>
+                </div>
+            }
+        </section>
+        <img class="bg" style="display: none;" src="~/assets/image/@Model.Restuorant.Image" alt="">
+        <header data-aos="fade-right">
+            <div class="head-menu">
+                <div class="menu">
+                    <div class="row navbar">
+                        <div class="logo col col-md-3">
+                            <a asp-controller="home" asp-action="index">
+                                <img src="~/assets/image/logo-2 white.svg" alt="">
+                            </a>
+                        </div>
+                        <div style="position:relative;" class="search col col-md-6">
+                            <input class="search-input" type="text" placeholder="&#xF002; Search" style="font-family:Arial, FontAwesome" />
+                            <ul id="search-ul" style="position:absolute; left:16%;  background-color:white; width:60%; z-index:99; " class=" mt-3 list-group">
+                            </ul>
+                        </div>
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            if (User.IsInRole("User"))
+                            {
+                                <div style="display:flex; justify-content:flex-end; z-index:99999999" class=" login-after mobile-user-account-language  col col-md-3 ">
+                                    <div class="icon">
+                                        <img src="~/assets/image/download.svg">
+                                        <i class="fa-solid fa-chevron-down"></i>
+                                    </div>
+
+                                    <div style="text-align:center; width:50%;" class="menulist">
+                                        <p><a asp-area="" asp-controller="account" asp-action="edituser">Setting</a></p>
+
+                                        <p><a asp-area="" asp-controller="account" asp-action="logout">Logout</a></p>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="user-account-language col col-md-3 ">
+                                    <p onclick="document.getElementById('id01').style.display='block'"><a>Log in</a></p>
+                                    <p onclick="document.getElementById('id02').style.display='block'"><a>Sign up</a></p>
+                                    <p><a asp-area="bussines" asp-controller="bussines" asp-action="login">Bussines</a></p>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="user-account-language col col-md-3 ">
+                                <p onclick="document.getElementById('id01').style.display='block'"><a>Log in</a></p>
+                                <p onclick="document.getElementById('id02').style.display='block'"><a>Sign up</a></p>
+                                <p><a style="color:white;" asp-area="bussines" asp-controller="bussines" asp-action="login">Bussines</a></p>
+                            </div>
+                        }
+                        <div class="mobile-user-account-language col col-md-2 ">
+                            <div class="icon">
+                                <img src="~/assets/image/download.svg">
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+
+                            <div class="menulist">
+                                <p onclick="document.getElementById('id01').style.display='block'"><a>Log in</a></p>
+                                <p onclick="document.getElementById('id02').style.display='block'"><a>Sign up</a></p>
+                                <p><a asp-area="bussines" asp-controller="bussines" asp-action="login">Bussines</a></p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="restorant-info row ">
+                <div class="delivery-time col-md-4">
+                    <div class="icon">
+                        <svg viewBox="0 0 24 24" class="ic_m_delivery_bike_courier_svg__rtlIcon"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path fill="none" d="M0 0h24v24H0z"></path>
+                            <path fill="currentColor"
+                                  d="M2.258 5.278l3.02-3.02a.898.898 0 011.273 0l1.303 1.303a.497.497 0 010 .707L4.268 7.854h-.001a.51.51 0 01-.706 0L2.258 6.551a.901.901 0 010-1.273zm.596 3.283c.283.283.66.439 1.06.439a1.49 1.49 0 001.061-.439l3.586-3.586A1.49 1.49 0 009 3.914c0-.4-.156-.777-.439-1.06L7.258 1.551a1.9 1.9 0 00-2.687 0l-3.02 3.02a1.902 1.902 0 000 2.687l1.303 1.303zM14.5 1c.827 0 1.5.673 1.5 1.5S15.327 4 14.5 4 13 3.327 13 2.5 13.673 1 14.5 1zm0 4C15.879 5 17 3.879 17 2.5 17 1.122 15.879 0 14.5 0A2.503 2.503 0 0012 2.5C12 3.879 13.122 5 14.5 5zm-2.507 14.583a.497.497 0 01-.491.417l-.086-.007a.492.492 0 01-.322-.202.494.494 0 01-.087-.374l.867-5.2a.499.499 0 00-.323-.552l-4.958-1.8A.91.91 0 016 11c0-.28.119-.549.341-.753l3.953-3.954a.98.98 0 01.559-.275l.184-.011c.288.026.501.117.725.333l5.027 3.752a.502.502 0 01.115.703.513.513 0 01-.697.11l-3.696-2.689a1.097 1.097 0 00-1.425.112l-1.749 1.749c-.279.28-.394.677-.308 1.062.085.386.358.697.729.831l2.913 1.06a.5.5 0 01.322.552l-1 6.001zm1.02-7.493L10.1 11.031a.143.143 0 01-.095-.109.143.143 0 01.04-.138l1.749-1.749a.101.101 0 01.129-.01l3.695 2.688c.643.468 1.627.314 2.095-.331.236-.324.331-.721.268-1.116a1.493 1.493 0 00-.599-.979l-4.968-3.701c-.335-.335-.769-.528-1.333-.577l-.341.016a1.978 1.978 0 00-1.154.561L5.651 9.524A2.014 2.014 0 005 11.019c0 .797.503 1.514 1.252 1.786l4.568 1.658-.799 4.79a1.499 1.499 0 102.959.494l1-6.001a1.5 1.5 0 00-.967-1.656zM18 12.5a.5.5 0 01.5-.5.5.5 0 00.5-.5.5.5 0 011 0c0 .827-.673 1.5-1.5 1.5a.5.5 0 01-.5-.5zM19.5 23c-1.929 0-3.5-1.57-3.5-3.5a3.49 3.49 0 011.712-2.992l1.327 3.185a.5.5 0 00.923-.385l-1.328-3.186c.279-.072.565-.122.866-.122 1.93 0 3.5 1.57 3.5 3.5S21.43 23 19.5 23zm0-8c-.437 0-.851.082-1.25.199l-.788-1.891a.502.502 0 00-.365-.299.503.503 0 00-.45.138l-2 2a.5.5 0 00.707.707l1.472-1.472.501 1.202C15.947 16.354 15 17.811 15 19.5c0 2.482 2.019 4.5 4.5 4.5 2.482 0 4.5-2.018 4.5-4.5 0-2.481-2.018-4.5-4.5-4.5zM5.383 19l1.319-2.198A3.478 3.478 0 017.949 19H5.383zM4.5 23C2.57 23 1 21.43 1 19.5S2.57 16 4.5 16c.48 0 .937.098 1.353.273l-1.782 2.97A.502.502 0 004.5 20h3.449c-.245 1.692-1.691 3-3.449 3zm2.72-7.061l.709-1.182a.501.501 0 00-.858-.514l-.705 1.175A4.45 4.45 0 004.5 15 4.505 4.505 0 000 19.5C0 21.982 2.019 24 4.5 24 6.982 24 9 21.982 9 19.5c0-1.455-.705-2.738-1.78-3.561z">
+                            </path>
+                        </svg>
+                    </div>
+                    <p>The average delivery time is 20–40 min</p>
+
+                </div>
+                <div class="restuorant-work-time col-md-5">
+                    Open today: 10.00–01.00
+                </div>
+
+
+                @if (User.Identity.IsAuthenticated && User.IsInRole("User"))
+                {
+                    <div id="basket-main" style="cursor: pointer;visibility:@(Model.BasketVM.BasketItemVMs.Count==0?"hidden":"visible;")" class="basket col-md-3 "
+                         onclick="document.getElementById('id03').style.display='block'">
+                        <div class="info-basket ">
+                            <div class="count total-count">@Model.BasketVM.Count</div>
+                            <div class="view-order">
+                                View order
+                            </div>
+                            <div class="totalprice">
+                                <p style="display:none;">
+                                    @(totalprice=Model.BasketVM.TotalPrice.ToString())
+                                </p>
+                                Azn: @(totalprice.Length>4? totalprice.Substring(0,5): totalprice)
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+
+            </div>
+            @if (User.Identity.IsAuthenticated && User.IsInRole("User"))
+            {
+                <div class="basket-mobile" onclick="document.getElementById('id03').style.display='block'">
+                    <div class="info-basket ">
+                        <div id="total-mobile" class="count">@Model.BasketVM.Count</div>
+                        <div class="view-order">
+                            <a>View order</a>
+                        </div>
+                        <div class="totalprice">
+                            <p style="display:none;">
+                                @(totalprice=Model.BasketVM.TotalPrice.ToString())
+                            </p>
+                            Azn: @(totalprice.Length>4? totalprice.Substring(0,5): totalprice)
+
+                        </div>
+                    </div>
+                </div>
+            }
+            <div style="position:absolute; bottom:19%;" class="restuorant-name">
+                <h1>@Model.Restuorant.Name</h1>
+            </div>
+
+        </header>
+        @if (User.Identity.IsAuthenticated && User.IsInRole("User"))
+        {
+
+
+            <p id="ckeck_search" style="display:none">yes</p>
+        }
+        else
+        {
+            <p id="ckeck_search" style="display:none">no</p>
+        }
+        <p style="display:none;" id="restorantid">@Model.Restuorant.Id</p>
+
+    </div>
+    <main>
+        <div class="login-page">
+            <div id="id01" class="modal">
+                <form class="modal-content animate" asp-area="" asp-controller="account" asp-action="login" method="post">
+                    <div class="container">
+                        <div class="cancel_button"><div onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">X</div></div>
+                        <div style="display:none" id="modellogin" class="alert alert-danger"></div>
+                        <label asp-for="@Model.loginUser.UserName"><b>Username</b></label>
+                        <input class="usernamelogin" type="text" placeholder="Enter Username" asp-for="@Model.loginUser.UserName">
+                        <label for="psw"><b>Password</b></label>
+                        <input class="passwordlogin" type="password" asp-for="@Model.loginUser.Password" placeholder="Enter Password">
+                        <button class="submit_button submit_login" type="submit">Login</button>
+                        <label>
+                            <input type="checkbox" checked="checked" name="remember"> Remember me
+                        </label>
+                        <div class=" container">
+                            <span class="psw "> <a href="#">Forgot password?</a></span>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div id="id02" class="modal">
+                <form class="modal-content animate" asp-area="" asp-controller="account" asp-action="register" method="post">
+                    <div style="display:none" id="modelonly" class="alert alert-danger"></div>
+                    <div class="container">
+                        <div class="cancel_button"><div onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">X</div></div>
+                        <label asp-for="@Model.RegisterVM.FullName"><b>FullName</b></label>
+                        <input class="fullname" type="text" placeholder="Enter FullName" asp-for="@Model.RegisterVM.FullName">
+                        <div><span id="fullname" class="mt-2 text text-danger" asp-validation-for="@Model.RegisterVM.FullName"></span></div>
+
+                        <label asp-for="@Model.RegisterVM.UserName"><b>UserName</b></label>
+                        <input class="username" type="text" placeholder="Enter UserName" asp-for="@Model.RegisterVM.UserName">
+                        <div><span id="username" class="mt-2 text text-danger" asp-validation-for="@Model.RegisterVM.UserName"></span></div>
+
+                        <label asp-for="@Model.RegisterVM.PhoneNumber"><b>PhoneNumber</b></label>
+                        <input class="phonenumber" style="width: 100%;border: 1px solid #ccc; padding:12px 20px;" type="tel" placeholder="Enter PhoneNumber" asp-for="@Model.RegisterVM.PhoneNumber">
+                        <div><span id="phonenumber" class="mt-2 text text-danger" asp-validation-for="@Model.RegisterVM.PhoneNumber"></span></div>
+
+                        <label asp-for="@Model.RegisterVM.Email"><b>Email</b></label>
+                        <input class="email" type="text" placeholder="Enter Email" asp-for="@Model.RegisterVM.Email">
+                        <div><span id="email" class="mt-2 text text-danger" asp-validation-for="@Model.RegisterVM.Email"></span></div>
+
+                        <label asp-for="@Model.RegisterVM.Password"><b>Password</b></label>
+                        <input class="password" type="password" placeholder="Enter Password" asp-for="@Model.RegisterVM.Password">
+                        <div><span id="password" class="mt-2 text text-danger" asp-validation-for="@Model.RegisterVM.Password"></span></div>
+
+                        <label asp-for="@Model.RegisterVM.ConfirmPassword"><b>Confirm Password</b></label>
+                        <input class="confirmpassword" type="password" placeholder="Confirm Password" asp-for="@Model.RegisterVM.ConfirmPassword">
+                        <div><span id="confirmpassword" class="mt-2 text text-danger" asp-validation-for="@Model.RegisterVM.ConfirmPassword"></span></div>
+
+                        <button class="submit_button submit_button_register" type="submit">Login</button>
+                        <label>
+                            <input class="terms" asp-for="@Model.RegisterVM.Terms" type="checkbox" checked="checked" name="remember"> Termss
+                        </label>
+                    </div>
+                    <div class="container">
+                        <span class="psw"> <a href="#">Forgot password?</a></span>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="pleasent-favourite" data-aos="zoom-in-down">
+            <div class="icons-point">
+                <div class="icon-smile">
+                    <img src="~/assets/image/smile.png" alt="">
+                </div>
+                <div class="point">
+                    <p>8.6 <small>out of 10</small></p>
+                </div>
+                <div style="background-color:@(Model.Favorite==null?"white":"#FFC83D")" class="favourite">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        if (Model.Favorite == null)
+                        {
+                            <a style="cursor:pointer;" class="add-favorite" data-id="@Model.Restuorant.Id">
+                                <div class="icon">
+                                    <img src="~/assets/image/favourite-icon.png" alt="">
+                                </div>
+                                <p>Favourite</p>
+                            </a>
+                        }
+                        else
+                        {
+                            <a style="cursor: pointer;color:white; " class="add-favorite checked" data-id="@Model.Restuorant.Id">
+                                <div class="icon">
+                                    <img src="~/assets/image/favourite-icon.png" alt="">
+                                </div>
+                                <p>Favourite</p>
+                            </a>
+                        }
+                    }
+                    else
+                    {
+                        <a style="cursor:pointer;" onclick="document.getElementById('id01').style.display='block'">
+                            <div class="icon">
+                                <img src="~/assets/image/favourite-icon.png" alt="">
+                            </div>
+                            <p>Favourite</p>
+                        </a>
+                    }
+                </div>
+            </div>
+            <div class="search">
+                <input id="search_product" class="search-input" type="text" placeholder="&#xF002; Search"
+                       style="font-family:Arial, FontAwesome" />
+
+            </div>
+        </div>
+        <div class="pleasent-favourite-mobile" data-aos="zoom-in-down">
+            <div class="icons-point">
+                <div class="icon-smile-point">
+                    <div class="icon-smile">
+                        <img src="~/assets/image/smile.png" alt="">
+                    </div>
+                    <div class="point">
+                        <p style="margin:0px; padding:0px;">8.6 <small>out of 10</small></p>
+                    </div>
+                </div>
+                <div class="favourite">
+                    <a href="#">
+                        <div class="icon">
+                            <img src="~/assets/image/favourite-icon.png" alt="">
+                        </div>
+                        <p style="margin-bottom:0px;">Favourite</p>
+                    </a>
+                </div>
+            </div>
+            <div class="work-time">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="MobileVenueInfo__icon___OTITw">
+                    <path fill="none" d="M0 0h16v16H0z"></path>
+                    <path fill="#202125"
+                          d="M12 8.5a.5.5 0 00-.5-.5H8V3.5a.5.5 0 00-1 0v5a.5.5 0 00.5.5h4a.5.5 0 00.5-.5M8 1C4.14 1 1 4.141 1 8s3.14 7 7 7 7-3.141 7-7-3.14-7-7-7m0 15c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8">
+                    </path>
+                </svg>10.00–01.00
+            </div>
+            <div class="restorant-info  ">
+                <div class="delivery-time ">
+                    <div class="icon">
+                        <svg viewBox="0 0 24 24" class="ic_m_delivery_bike_courier_svg__rtlIcon"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path fill="none" d="M0 0h24v24H0z"></path>
+                            <path fill="currentColor"
+                                  d="M2.258 5.278l3.02-3.02a.898.898 0 011.273 0l1.303 1.303a.497.497 0 010 .707L4.268 7.854h-.001a.51.51 0 01-.706 0L2.258 6.551a.901.901 0 010-1.273zm.596 3.283c.283.283.66.439 1.06.439a1.49 1.49 0 001.061-.439l3.586-3.586A1.49 1.49 0 009 3.914c0-.4-.156-.777-.439-1.06L7.258 1.551a1.9 1.9 0 00-2.687 0l-3.02 3.02a1.902 1.902 0 000 2.687l1.303 1.303zM14.5 1c.827 0 1.5.673 1.5 1.5S15.327 4 14.5 4 13 3.327 13 2.5 13.673 1 14.5 1zm0 4C15.879 5 17 3.879 17 2.5 17 1.122 15.879 0 14.5 0A2.503 2.503 0 0012 2.5C12 3.879 13.122 5 14.5 5zm-2.507 14.583a.497.497 0 01-.491.417l-.086-.007a.492.492 0 01-.322-.202.494.494 0 01-.087-.374l.867-5.2a.499.499 0 00-.323-.552l-4.958-1.8A.91.91 0 016 11c0-.28.119-.549.341-.753l3.953-3.954a.98.98 0 01.559-.275l.184-.011c.288.026.501.117.725.333l5.027 3.752a.502.502 0 01.115.703.513.513 0 01-.697.11l-3.696-2.689a1.097 1.097 0 00-1.425.112l-1.749 1.749c-.279.28-.394.677-.308 1.062.085.386.358.697.729.831l2.913 1.06a.5.5 0 01.322.552l-1 6.001zm1.02-7.493L10.1 11.031a.143.143 0 01-.095-.109.143.143 0 01.04-.138l1.749-1.749a.101.101 0 01.129-.01l3.695 2.688c.643.468 1.627.314 2.095-.331.236-.324.331-.721.268-1.116a1.493 1.493 0 00-.599-.979l-4.968-3.701c-.335-.335-.769-.528-1.333-.577l-.341.016a1.978 1.978 0 00-1.154.561L5.651 9.524A2.014 2.014 0 005 11.019c0 .797.503 1.514 1.252 1.786l4.568 1.658-.799 4.79a1.499 1.499 0 102.959.494l1-6.001a1.5 1.5 0 00-.967-1.656zM18 12.5a.5.5 0 01.5-.5.5.5 0 00.5-.5.5.5 0 011 0c0 .827-.673 1.5-1.5 1.5a.5.5 0 01-.5-.5zM19.5 23c-1.929 0-3.5-1.57-3.5-3.5a3.49 3.49 0 011.712-2.992l1.327 3.185a.5.5 0 00.923-.385l-1.328-3.186c.279-.072.565-.122.866-.122 1.93 0 3.5 1.57 3.5 3.5S21.43 23 19.5 23zm0-8c-.437 0-.851.082-1.25.199l-.788-1.891a.502.502 0 00-.365-.299.503.503 0 00-.45.138l-2 2a.5.5 0 00.707.707l1.472-1.472.501 1.202C15.947 16.354 15 17.811 15 19.5c0 2.482 2.019 4.5 4.5 4.5 2.482 0 4.5-2.018 4.5-4.5 0-2.481-2.018-4.5-4.5-4.5zM5.383 19l1.319-2.198A3.478 3.478 0 017.949 19H5.383zM4.5 23C2.57 23 1 21.43 1 19.5S2.57 16 4.5 16c.48 0 .937.098 1.353.273l-1.782 2.97A.502.502 0 004.5 20h3.449c-.245 1.692-1.691 3-3.449 3zm2.72-7.061l.709-1.182a.501.501 0 00-.858-.514l-.705 1.175A4.45 4.45 0 004.5 15 4.505 4.505 0 000 19.5C0 21.982 2.019 24 4.5 24 6.982 24 9 21.982 9 19.5c0-1.455-.705-2.738-1.78-3.561z">
+                            </path>
+                        </svg>
+                        The average delivery time is 20–40 min
+                    </div>
+
+
+                </div>
+
+
+
+            </div>
+            <div style="height:3rem;" class="search">
+                <input class="search-input" type="text" placeholder="&#xF002; Search"
+                       style="font-family:Arial, FontAwesome; height:100%;" />
+            </div>
+        </div>
+        <div class="container">
+            <div class="category-product-info row">
+                <div class="categories col-md-2">
+                    <ul>
+                        <li class="category_Name " data-id="All"><p>All</p></li>
+                        @foreach (ProductCategory category in Model.Restuorant.ProductCategories)
+                        {
+                            <li class="category_Name" data-id="@Html.Raw(category.Name)">@Html.Raw(category.Name)</li>
+                        }
+
+                    </ul>
+                </div>
+                <div class="categories-mobile">
+                    <div class="owl-carousel owl-theme second-category">
+
+                        <div class="item ">
+                            <a data-id="All" class="category_Name" href="#">
+                                <p>Butun</p>
+                            </a>
+                        </div>
+                        @foreach (ProductCategory category in Model.Restuorant.ProductCategories)
+                        {
+                            <div class="item ">
+                                <a data-id="@Html.Raw(category.Name)" class="category_Name" href="#">
+                                    @Html.Raw(category.Name)
+                                </a>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+                <div class="products col-md-7" data-aos="zoom-out">
+                    @foreach (Product product in Model.Restuorant.Products)
+                    {
+                        if (User.Identity.IsAuthenticated && User.IsInRole("User"))
+                        {
+                            <a style="cursor:pointer;" class="item-product" id="@product.Id" data-id="@Html.Raw(product.productCategory.Name)">
+                                <div style="padding:1% 2%;" class="product">
+                                    <div class="title-desc-price">
+                                        <div class="title">
+                                            <h6>@product.Name</h6>
+                                        </div>
+                                        <div class="description">
+                                            <p>Un, kərə yağı, yumurta, badam, şəkər</p>
+                                        </div>
+                                        <div class="price">
+                                            @if (Model.Restuorant.CampaignId != null)
+                                            {<del>@product.Price</del>}
+                                            AZN @(Model.Restuorant.CampaignId==null?product.Price:(product.Price-(product.Price*Model.Restuorant.Campaign.CampaignPercent)/100))
+                                        </div>
+                                    </div>
+                                    <div style="width:35%; height:12rem;" class="img">
+                                        <img style="height:100%; width:100%;" src="~/assets/image/@product.Image" alt="">
+                                    </div>
+                                </div>
+                            </a>
+                        }
+                        else
+                        {
+                            <a style="cursor:pointer;" class="item-product-offline" id="@product.Id" data-id="@Html.Raw(product.productCategory.Name)">
+                                <div style="padding:1% 2%;" class="product">
+                                    <div class="title-desc-price">
+                                        <div class="title">
+                                            <h6>@product.Name</h6>
+                                        </div>
+                                        <div class="description">
+                                            <p>Un, kərə yağı, yumurta, badam, şəkər</p>
+                                        </div>
+                                        <div class="price">
+                                            @if (Model.Restuorant.CampaignId != null)
+                                            {<del>@product.Price</del>}
+                                            AZN @(Model.Restuorant.CampaignId==null?product.Price:(product.Price-(product.Price*Model.Restuorant.Campaign.CampaignPercent)/100))
+                                        </div>
+                                    </div>
+                                    <div style="width:35%; height:12rem;" class="img">
+                                        <img style="height:100%; width:100%;" src="~/assets/image/@product.Image" alt="">
+                                    </div>
+                                </div>
+                            </a>
+                        }
+                    }
+                </div>
+                <div class="information col-md-3" data-aos="fade-down" data-aos-easing="linear" data-aos-duration="600">
+                    <div class="venues">
+                        <h5>Restaurant information</h5>
+                        <div class="adress">
+                            <h6>Adress</h6>
+                            <p>@Model.Restuorant.Adress</p>
+                            <small>AZ1000 Baku</small> <br>
+                            <a target="_blank"
+                               href="https://www.google.com/maps?q=40.37582007726297,49.84290652990565">See Map</a>
+                        </div>
+                        <div class="description">
+                            <h6>About Me</h6>
+                            <p>
+                                @Model.Restuorant.Description 😌
+                            </p>
+                            <p>Phone:<a href="">+994515619425</a></p>
+                        </div>
+                        <div class="categories2">
+                            <h5>categories</h5>
+                            @foreach (ProductCategory category in Model.Restuorant.ProductCategories)
+                            {
+                                <a>@Html.Raw(category.Name)</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Footer strat -->
+    <footer data-aos="zoom-in-down">
+        <div class="container">
+            <div class="logo">
+                <img src="~/assets/image/cdbe7be1-6efd-473c-9f5d-1104414be4a0logo.svg" alt="">
+            </div>
+            <div class="footer-titles row">
+                <div class="title  col-md-4 ">
+                    <p>Download the app</p>
+                    <div class="dowload-icons ">
+                        <div class="icon ">
+                            <a href="https://apps.apple.com/us/app/wolt-delivery-food-and-more/id943905271">
+
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 119.664 40" class="PlatformBadge-module__image___vWXHR" aria-label="Get the Wolt app : ios"><path d="M110.135 0H9.535c-.367 0-.73 0-1.095.002-.306.002-.61.008-.919.013A13.215 13.215 0 005.517.19a6.665 6.665 0 00-1.9.627 6.438 6.438 0 00-1.62 1.18A6.258 6.258 0 00.82 3.617a6.601 6.601 0 00-.625 1.903 12.993 12.993 0 00-.179 2.002c-.01.307-.01.615-.015.921V31.56c.005.31.006.61.015.921a12.992 12.992 0 00.18 2.002 6.588 6.588 0 00.624 1.905A6.208 6.208 0 001.998 38a6.274 6.274 0 001.618 1.179 6.7 6.7 0 001.901.63 13.455 13.455 0 002.004.177c.31.007.613.011.919.011.366.002.728.002 1.095.002h100.6c.36 0 .724 0 1.084-.002.304 0 .617-.004.922-.01a13.279 13.279 0 002-.178 6.804 6.804 0 001.908-.63A6.277 6.277 0 00117.666 38a6.395 6.395 0 001.182-1.614 6.604 6.604 0 00.619-1.905 13.506 13.506 0 00.185-2.002c.004-.31.004-.61.004-.921.008-.364.008-.725.008-1.094V9.536c0-.366 0-.73-.008-1.092 0-.306 0-.614-.004-.92a13.507 13.507 0 00-.185-2.003 6.618 6.618 0 00-.62-1.903 6.466 6.466 0 00-2.798-2.8 6.768 6.768 0 00-1.908-.627 13.044 13.044 0 00-2-.176c-.305-.005-.618-.011-.922-.013-.36-.002-.725-.002-1.084-.002z" fill="#a6a6a6"></path><path d="M8.445 39.125c-.305 0-.602-.004-.904-.01a12.687 12.687 0 01-1.87-.164 5.884 5.884 0 01-1.656-.548 5.406 5.406 0 01-1.397-1.016 5.32 5.32 0 01-1.02-1.397 5.722 5.722 0 01-.544-1.657 12.414 12.414 0 01-.166-1.875c-.007-.21-.015-.913-.015-.913v-23.1s.009-.692.015-.895a12.37 12.37 0 01.165-1.872 5.755 5.755 0 01.544-1.662 5.373 5.373 0 011.015-1.398 5.565 5.565 0 011.402-1.023 5.823 5.823 0 011.653-.544A12.586 12.586 0 017.543.887l.902-.012h102.769l.913.013a12.385 12.385 0 011.858.162 5.938 5.938 0 011.671.548 5.594 5.594 0 012.415 2.42 5.763 5.763 0 01.535 1.649 12.995 12.995 0 01.174 1.887c.003.283.003.588.003.89.008.375.008.732.008 1.092v20.929c0 .363 0 .718-.008 1.075 0 .325 0 .623-.004.93a12.731 12.731 0 01-.17 1.853 5.739 5.739 0 01-.54 1.67 5.48 5.48 0 01-1.016 1.386 5.413 5.413 0 01-1.4 1.022 5.862 5.862 0 01-1.668.55 12.542 12.542 0 01-1.869.163c-.293.007-.6.011-.897.011l-1.084.002z"></path><g data-name="<Group>"><g data-name="<Group>" fill="#fff"><path data-name="<Path>" d="M24.769 20.3a4.949 4.949 0 012.356-4.151 5.066 5.066 0 00-3.99-2.158c-1.68-.176-3.308 1.005-4.164 1.005-.872 0-2.19-.988-3.608-.958a5.315 5.315 0 00-4.473 2.728c-1.934 3.348-.491 8.269 1.361 10.976.927 1.325 2.01 2.805 3.428 2.753 1.387-.058 1.905-.885 3.58-.885 1.658 0 2.144.885 3.59.852 1.489-.025 2.426-1.332 3.32-2.67a10.962 10.962 0 001.52-3.092 4.782 4.782 0 01-2.92-4.4zM22.037 12.21a4.872 4.872 0 001.115-3.49 4.957 4.957 0 00-3.208 1.66A4.636 4.636 0 0018.8 13.74a4.1 4.1 0 003.237-1.53z"></path></g><g fill="#fff"><path d="M42.302 27.14H37.57l-1.137 3.356h-2.005l4.484-12.418h2.083l4.483 12.418h-2.039zm-4.243-1.55h3.752l-1.85-5.446h-.051zM55.16 25.97c0 2.813-1.506 4.62-3.779 4.62a3.07 3.07 0 01-2.848-1.583h-.043v4.484H46.63V21.442h1.8v1.506h.033a3.212 3.212 0 012.883-1.6c2.298 0 3.813 1.816 3.813 4.622zm-1.91 0c0-1.833-.948-3.038-2.393-3.038-1.42 0-2.375 1.23-2.375 3.038 0 1.824.955 3.046 2.375 3.046 1.445 0 2.393-1.197 2.393-3.046zM65.125 25.97c0 2.813-1.506 4.62-3.779 4.62a3.07 3.07 0 01-2.848-1.583h-.043v4.484h-1.859V21.442h1.799v1.506h.034a3.212 3.212 0 012.883-1.6c2.298 0 3.813 1.816 3.813 4.622zm-1.91 0c0-1.833-.948-3.038-2.393-3.038-1.42 0-2.375 1.23-2.375 3.038 0 1.824.955 3.046 2.375 3.046 1.445 0 2.392-1.197 2.392-3.046zM71.71 27.036c.138 1.232 1.334 2.04 2.97 2.04 1.566 0 2.693-.808 2.693-1.919 0-.964-.68-1.54-2.29-1.936l-1.609-.388c-2.28-.55-3.339-1.617-3.339-3.348 0-2.142 1.867-3.614 4.519-3.614 2.624 0 4.423 1.472 4.483 3.614h-1.876c-.112-1.239-1.136-1.987-2.634-1.987s-2.521.757-2.521 1.858c0 .878.654 1.395 2.255 1.79l1.368.336c2.548.603 3.606 1.626 3.606 3.443 0 2.323-1.85 3.778-4.793 3.778-2.754 0-4.614-1.42-4.734-3.667zM83.346 19.3v2.142h1.722v1.472h-1.722v4.991c0 .776.345 1.137 1.102 1.137a5.808 5.808 0 00.611-.043v1.463a5.104 5.104 0 01-1.032.086c-1.833 0-2.548-.689-2.548-2.445v-5.189h-1.316v-1.472h1.316V19.3zM86.065 25.97c0-2.849 1.678-4.639 4.294-4.639 2.625 0 4.295 1.79 4.295 4.639 0 2.856-1.661 4.638-4.295 4.638-2.633 0-4.294-1.782-4.294-4.638zm6.695 0c0-1.954-.895-3.108-2.401-3.108s-2.4 1.162-2.4 3.108c0 1.962.894 3.106 2.4 3.106s2.401-1.144 2.401-3.106zM96.186 21.442h1.773v1.541h.043a2.16 2.16 0 012.177-1.635 2.866 2.866 0 01.637.069v1.738a2.598 2.598 0 00-.835-.112 1.873 1.873 0 00-1.937 2.083v5.37h-1.858zM109.384 27.837c-.25 1.643-1.85 2.771-3.898 2.771-2.634 0-4.269-1.764-4.269-4.595 0-2.84 1.644-4.682 4.19-4.682 2.506 0 4.08 1.72 4.08 4.466v.637h-6.394v.112a2.358 2.358 0 002.436 2.564 2.048 2.048 0 002.09-1.273zm-6.282-2.702h4.526a2.177 2.177 0 00-2.22-2.298 2.292 2.292 0 00-2.306 2.298z"></path></g></g><g data-name="<Group>"><g fill="#fff"><path d="M37.826 8.731a2.64 2.64 0 012.808 2.965c0 1.906-1.03 3.002-2.808 3.002h-2.155V8.73zm-1.228 5.123h1.125a1.876 1.876 0 001.967-2.146 1.881 1.881 0 00-1.967-2.134h-1.125zM41.68 12.444a2.133 2.133 0 114.248 0 2.134 2.134 0 11-4.247 0zm3.334 0c0-.976-.439-1.547-1.208-1.547-.773 0-1.207.571-1.207 1.547 0 .984.434 1.55 1.207 1.55.77 0 1.208-.57 1.208-1.55zM51.573 14.698h-.922l-.93-3.317h-.07l-.927 3.317h-.913l-1.242-4.503h.902l.806 3.436h.067l.926-3.436h.852l.926 3.436h.07l.803-3.436h.889zM53.854 10.195h.855v.715h.066a1.348 1.348 0 011.344-.802 1.465 1.465 0 011.559 1.675v2.915h-.889v-2.692c0-.724-.314-1.084-.972-1.084a1.033 1.033 0 00-1.075 1.141v2.635h-.888zM59.094 8.437h.888v6.26h-.888zM61.218 12.444a2.133 2.133 0 114.247 0 2.134 2.134 0 11-4.247 0zm3.333 0c0-.976-.439-1.547-1.208-1.547-.773 0-1.207.571-1.207 1.547 0 .984.434 1.55 1.207 1.55.77 0 1.208-.57 1.208-1.55zM66.4 13.424c0-.81.604-1.278 1.676-1.344l1.22-.07v-.389c0-.475-.315-.744-.922-.744-.497 0-.84.182-.939.5h-.86c.09-.773.818-1.27 1.84-1.27 1.128 0 1.765.563 1.765 1.514v3.077h-.855v-.633h-.07a1.515 1.515 0 01-1.353.707 1.36 1.36 0 01-1.501-1.348zm2.895-.384v-.377l-1.1.07c-.62.042-.9.253-.9.65 0 .405.351.64.834.64a1.062 1.062 0 001.166-.983zM71.348 12.444c0-1.423.732-2.324 1.87-2.324a1.484 1.484 0 011.38.79h.067V8.437h.888v6.26h-.851v-.71h-.07a1.563 1.563 0 01-1.415.785c-1.145 0-1.869-.901-1.869-2.328zm.918 0c0 .955.45 1.53 1.203 1.53.75 0 1.212-.583 1.212-1.526 0-.938-.468-1.53-1.212-1.53-.748 0-1.203.58-1.203 1.526zM79.23 12.444a2.133 2.133 0 114.247 0 2.134 2.134 0 11-4.247 0zm3.333 0c0-.976-.438-1.547-1.208-1.547-.772 0-1.207.571-1.207 1.547 0 .984.435 1.55 1.207 1.55.77 0 1.208-.57 1.208-1.55zM84.67 10.195h.855v.715h.066a1.348 1.348 0 011.344-.802 1.465 1.465 0 011.559 1.675v2.915h-.889v-2.692c0-.724-.314-1.084-.972-1.084a1.033 1.033 0 00-1.075 1.141v2.635h-.889zM93.515 9.074v1.141h.976v.749h-.976v2.315c0 .472.194.679.637.679a2.967 2.967 0 00.339-.021v.74a2.916 2.916 0 01-.484.046c-.988 0-1.381-.348-1.381-1.216v-2.543h-.715v-.749h.715V9.074zM95.705 8.437h.88v2.481h.07a1.386 1.386 0 011.374-.806 1.483 1.483 0 011.55 1.679v2.907h-.889V12.01c0-.72-.335-1.084-.963-1.084a1.052 1.052 0 00-1.134 1.142v2.63h-.888zM104.761 13.482a1.828 1.828 0 01-1.95 1.303 2.045 2.045 0 01-2.081-2.325 2.077 2.077 0 012.076-2.352c1.253 0 2.009.856 2.009 2.27v.31h-3.18v.05a1.19 1.19 0 001.2 1.29 1.08 1.08 0 001.07-.546zm-3.126-1.451h2.275a1.086 1.086 0 00-1.109-1.167 1.152 1.152 0 00-1.166 1.167z"></path></g></g></svg>
+                            </a>
+                        </div>
+                        <div class="icon">
+                            <a href="https://play.google.com/store/apps/details?id=com.wolt.android&hl=en&gl=US">
+
+                                <img src="~/assets/image/googleplay.png" alt="">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="title col col-md-4 ">
+                    <p>Let's do this together</p>
+
+                    <div class="about">
+                        <ul>
+                            <li><a asp-area="bussines" asp-controller="courier" asp-action="register">For couriers</a></li>
+                            <li><a asp-area="bussines" asp-controller="bussinesaccount" asp-action="createrestuorant">For restaurant</a></li>
+                            <li><a asp-area="bussines" asp-controller="bussinesaccount" asp-action="CreateStore">For stores</a></li>
+                            <li style="cursor:pointer;"><a onclick="document.getElementById('id02').style.display='block'">For users</a></li>
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="title col col-md-4 ">
+                    <p>
+
+                        Wolt links
+                    </p>
+
+                    <div class="about">
+                        <ul>
+                            <li><a asp-controller="restaurant" asp-action="index">Restaurants</a></li>
+                            <li><a asp-controller="store" asp-action="index">Stores</a></li>
+                            <li>Contact:+995515515151</li>
+                            <li>Adres:28 may AF Business House</li>
+                            <li>Mail:@@wolt.com</li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-infoo row">
+                <div class="copyright col col-md-4">
+                    <p>©️ Wolt 2014–2022</p>
+                </div>
+                <div class="info col col-md-4">
+                    <ul>
+                        <li>
+                            Accessibility statement
+                        </li>
+                        <li> Terms and conditions</li>
+                        <li>Privacy policy</li>
+                    </ul>
+                </div>
+                <div class="social-medias col-md-4">
+                    <div class="icons ">
+                        <a class="icon facebook" href="https://www.facebook.com/">
+                            <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M20 10.061C20 4.505 15.523 0 10 0S0 4.505 0 10.061C0 15.083 3.657 19.245 8.438 20v-7.03h-2.54V10.06h2.54V7.845c0-2.522 1.492-3.915 3.777-3.915 1.094 0 2.238.197 2.238.197v2.476h-1.26c-1.243 0-1.63.775-1.63 1.57v1.888h2.773l-.443 2.908h-2.33V20c4.78-.755 8.437-4.917 8.437-9.939z" fill="currentColor"></path></svg>
+                        </a>
+                        <a class="icon instagram" href="https://www.instagram.com/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0z"></path><path d="M17.338 5.462a1.2 1.2 0 100 2.4 1.2 1.2 0 000-2.4M12 15.333a3.333 3.333 0 110-6.665 3.333 3.333 0 010 6.665m0-8.468a5.135 5.135 0 100 10.27 5.135 5.135 0 000-10.27M12 2c-2.716 0-3.057.012-4.123.061-1.064.047-1.791.216-2.428.464a4.875 4.875 0 00-1.77 1.154 4.875 4.875 0 00-1.154 1.77c-.248.637-.416 1.364-.464 2.428C2.012 8.943 2 9.284 2 12s.012 3.057.061 4.123c.048 1.065.216 1.791.464 2.428a4.875 4.875 0 001.154 1.77 4.875 4.875 0 001.77 1.154c.637.248 1.364.417 2.428.465 1.066.048 1.407.06 4.123.06s3.057-.012 4.123-.06c1.065-.048 1.791-.217 2.428-.465a4.875 4.875 0 001.77-1.154 4.875 4.875 0 001.154-1.77c.248-.637.417-1.363.465-2.428.048-1.066.06-1.407.06-4.123s-.012-3.057-.06-4.123c-.048-1.064-.217-1.791-.465-2.428a4.875 4.875 0 00-1.154-1.77 4.875 4.875 0 00-1.77-1.154c-.637-.248-1.363-.417-2.428-.464C15.057 2.012 14.716 2 12 2m0 1.802c2.67 0 2.986.01 4.041.058.975.044 1.504.207 1.857.344.466.182.799.399 1.15.748.35.351.566.684.748 1.151.137.352.3.881.344 1.856.049 1.055.058 1.371.058 4.041 0 2.67-.009 2.986-.058 4.041-.044.975-.207 1.504-.344 1.857a3.12 3.12 0 01-.748 1.15 3.12 3.12 0 01-1.15.748c-.353.137-.882.3-1.857.344-1.055.049-1.371.058-4.041.058-2.67 0-2.986-.009-4.041-.058-.975-.044-1.504-.207-1.856-.344a3.116 3.116 0 01-1.151-.748 3.133 3.133 0 01-.748-1.15c-.137-.353-.3-.882-.344-1.857-.048-1.055-.058-1.371-.058-4.041 0-2.67.01-2.986.058-4.041.044-.975.207-1.504.344-1.856.182-.467.399-.8.748-1.151a3.129 3.129 0 011.151-.748c.352-.137.881-.3 1.856-.344C9.014 3.812 9.33 3.802 12 3.802" fill="currentColor"></path></svg></a>
+                        <a class="icon twitter" href="https://twitter.com/?lang=en"><svg viewBox="0 0 17 15" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M17 2.143c-.637.321-1.275.428-2.019.536.744-.429 1.275-1.072 1.488-1.929-.638.429-1.382.643-2.232.857C13.6.964 12.645.536 11.688.536c-1.806 0-3.4 1.607-3.4 3.535 0 .322 0 .536.107.75A9.75 9.75 0 011.169 1.18C.85 1.714.744 2.25.744 3c0 1.179.637 2.25 1.594 2.893-.532 0-1.063-.214-1.594-.429 0 1.715 1.169 3.107 2.762 3.429C3.188 9 2.87 9 2.55 9c-.212 0-.425 0-.637-.107.424 1.393 1.7 2.464 3.293 2.464-1.169.964-2.656 1.5-4.356 1.5H0c1.594.964 3.4 1.607 5.313 1.607 6.375 0 9.88-5.357 9.88-9.964v-.429c.745-.535 1.382-1.178 1.807-1.928z"></path></svg></a>
+                        <a class="icon linkedin" href="https://www.linkedin.com/feed/"><svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor"><path d="M1.894 0C.749 0 0 .813 0 1.882c0 1.045.727 1.883 1.85 1.883h.022c1.167 0 1.893-.838 1.893-1.883C3.743.812 3.039 0 1.894 0M0 15.059h3.765V4.706H0zM12.095 4.706c-1.8 0-2.606.983-3.056 1.671v.033h-.023l.023-.033V4.944H5.647c.046.95 0 10.115 0 10.115H9.04v-5.65c0-.302.023-.603.113-.819.245-.605.802-1.23 1.74-1.23 1.227 0 1.717.928 1.717 2.287v5.412H16v-5.8c0-3.107-1.673-4.553-3.905-4.553"></path></g></svg></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer End -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init({
+
+            duration: 1000,
+        });
+    </script>
+    <script>
+        // Get the modal
+        var modal = document.getElementById('id01');
+        var modal2 = document.getElementById('id02');
+        var modal3 = document.getElementById('id03');
+
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+            if (event.target == modal2) {
+                modal2.style.display = "none";
+            }
+            if (event.target == modal3) {
+                modal3.style.display = "none";
+            }
+        }
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+            integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="~/assets/js/owl.carousel.min.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $(document).on("click", ".item-increase", function (e) {
+                var id = $(e.target).attr('id')
+                BasketAddShow(id)
+            })
+            $(document).on("click", ".item-decrease", function (e) {
+                var id = $(e.target).attr('id')
+                BasketDecrease(id)
+            })
+            $(document).on("click", ".item-product-offline", function (e) {
+                document.getElementById('id01').style.display = 'block'
+            })
+            $(".item-product").click(function myfunction(e) {
+
+                var id = $(this).attr('id')
+                BasketAddShow(id)
+            })
+            function BasketAddShow(id) {
+                $.ajax({
+                    url: "/restaurant/addtobassket",
+                    data: {
+                        Id: id,
+                    },
+                    dataType: 'json',
+                    type: "post",
+                    success: function (status) {
+                        if (status.status == 200) {
+
+                        } else {
+
+                        }
+                    },
+                    complete: function () {
+                        $.ajax({
+                            url: "/restaurant/showbasket",
+                            data: {
+                                Id: id,
+                            },
+                            dataType: 'json',
+                            type: "post",
+                            success: function (data) {
+                                var baskets = document.getElementById("basket-items")
+                                var baskett = document.getElementById("basket-main")
+                                var table = document.getElementById("id03")
+                                baskett.style.visibility = "visible"
+
+
+                                baskets.innerHTML = ""
+                                var itemIncrase = document.querySelectorAll(".item-increase")
+
+                                $.map(data.basketItemVMs, function (val, i) {
+
+                                    var li = document.createElement("li")
+                                    li.className = "basket-item-li"
+                                    li.innerHTML += `
+                            <div id="count-mob" style="display:none" class="count ">
+                                                                <p>
+                                                                    ${val.count}
+                                                                </p>
+                                                            </div>
+
+                                                                                             <div  class="input-group plus-minus-input">
+                                                                    <div class="input-group-button">
+                                                                        <button   type="button" class="button hollow circle item-decrease " data-quantity="minus"
+                                                                                data-field="quantity">
+                                                                            <i id="${val.product.id}"  class="fa fa-minus" aria-hidden="true"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                    <p class="input-group-field">${val.count}</p>
+                                                                    <div class="input-group-button">
+                                                                        <button  type="button" class="button hollow circle item-increase" data-quantity="plus"
+                                                                                data-field="quantity">
+                                                                            <i id="${val.product.id}" class="fa fa-plus" aria-hidden="true"></i>
+
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+
+                                                                                        <div class="name-price ">
+                                                                                            <div class="name">
+                                                                                                ${val.product.name}
+                                                                                            </div>
+                                                                                            <div class="price">
+                                                                                                AZN ${val.price.toString().substring(0, 5)}
+                                                                                            </div>
+                                                                                        </div>
+                                                                                      <div style="height:3rem;" class="image ">
+                                                                                            <img style="height:100%;" src="/assets/image/${val.product.image}" alt="">
+                                                                                        </div>
+`
+                                    baskets.append(li)
+                                    baskett.style.visibility = "visible"
+
+                                })
+                                $('.total-count').html(data.count)
+                                $('.totalprice').html("AZN:" + data.totalPrice.toString().substring(0, 4))
+                                $('#total-mobile').html(data.count)
+                                $('#mydiv').fadeIn('fast');
+                                setTimeout(function () {
+                                    $('#mydiv').fadeOut('fast');
+                                }, 1500);
+
+                            }
+
+                        })
+                    }
+                })
+            }
+            function BasketDecrease(id) {
+                $.ajax({
+                    url: "/restaurant/decrease",
+                    data: {
+                        Id: id,
+                    },
+                    dataType: 'json',
+                    type: "post",
+                    success: function (status) {
+                        if (status.status == 200) {
+
+                        } else {
+
+                        }
+                    },
+                    complete: function () {
+                        $.ajax({
+                            url: "/restaurant/showbasket",
+                            data: {
+                                Id: id,
+                            },
+                            dataType: 'json',
+                            type: "post",
+                            success: function (data) {
+                                var baskets = document.getElementById("basket-items")
+                                baskets.innerHTML = ""
+                                var itemIncrase = document.querySelectorAll(".item-increase")
+                                console.log(data)
+                                if (data.count == 0) {
+                                    var baskett = document.getElementById("basket-main")
+                                    var table = document.getElementById("id03")
+                                    baskett.style.visibility = "hidden"
+                                    table.style.display = "none"
+                                }
+
+                                $.map(data.basketItemVMs, function (val, i) {
+
+                                    var li = document.createElement("li")
+                                    li.className = "basket-item-li"
+                                    li.innerHTML += `
+                                    <div id="count-mob" style="display:none" class="count ">
+                                                                <p>
+                                                                    ${val.count}
+                                                                </p>
+                                                            </div>
+
+                                                                                             <div  class="input-group plus-minus-input">
+                                                                    <div class="input-group-button">
+                                                                        <button   type="button" class="button hollow circle item-decrease " data-quantity="minus"
+                                                                                data-field="quantity">
+                                                                            <i id="${val.product.id}"  class="fa fa-minus" aria-hidden="true"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                     <p class="input-group-field">${val.count}</p>
+                                                                    <div class="input-group-button">
+                                                                        <button  type="button" class="button hollow circle item-increase" data-quantity="plus"
+                                                                                data-field="quantity">
+                                                                            <i id="${val.product.id}" class="fa fa-plus" aria-hidden="true"></i>
+
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+
+                                                                                        <div class="name-price ">
+                                                                                            <div class="name">
+                                                                                                ${val.product.name}
+                                                                                            </div>
+                                                                                            <div class="price">
+                                                                                                AZN ${val.product.price}
+                                                                                            </div>
+                                                                                        </div>
+                                                                                      <div style="height:3rem;" class="image ">
+                                                                                            <img style="height:100%;" src="/assets/image/${val.product.image}" alt="">
+                                                                                        </div>
+`
+                                    baskets.append(li)
+
+                                })
+                                $('.total-count').html(data.count)
+                                $('.totalprice').html("AZN:" + data.totalPrice)
+
+
+                            }
+
+                        })
+                    }
+                })
+            }
+        })
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".submit_button_register").click(function (e) {
+                e.preventDefault()
+                if ($(".fullname").val() === "") {
+                    $('#fullname').html("FullName Is Required")
+                } if ($(".username").val() == "") {
+                    $('#username').html("UserName is Required")
+                }
+                if ($(".email").val() == "") {
+                    $('#email').html("Email Is Required")
+                } if ($(".password").val() == "") {
+                    $('#password').html("Password Is Required")
+                } if ($(".confirmpassword").val() != $(".password").val()) {
+                    $('#confirmpassword').html("Confirm password not match password")
+                } if ($(".phonenumber").val() == "") {
+                    $('#phonenumber').html("Phone Number Is Required")
+                }
+                else {
+                    $.ajax({
+                        url: "/account/register",
+                        data: {
+                            FullName: $(".fullname").val(),
+                            UserName: $(".username").val(),
+                            PhoneNumber: $(".fullname").val(),
+                            Email: $(".email").val(),
+                            Password: $(".password").val(),
+                            ConfirmPassword: $(".confirmpassword").val(),
+                            Terms: $(".terms").val()
+                        },
+                        dataType: 'json',
+                        type: "post",
+                        success: function (status) {
+                            if (status.status == 200) {
+                                location.reload(true)
+                            } else {
+                                var validator = document.getElementById("modelonly")
+                                var ul = document.createElement("ul")
+                                $.map(status.status, function (val, i) {
+                                    validator.innerHTML = ""
+                                    val.description
+                                    var li = document.createElement("li")
+                                    li.innerHTML = val.description
+                                    ul.append(li)
+                                    validator.append(ul)
+                                    validator.style.display = "block"
+
+                                })
+
+                            }
+                        },
+                        error: function (status) {
+                            console.log(status)
+                        }
+                    })
+                }
+            })
+
+
+            $(".submit_login").click(function (e) {
+
+                e.preventDefault()
+                $.ajax({
+                    url: "/account/login",
+                    data: {
+                        Username: $('.usernamelogin').val(),
+                        Password: $('.passwordlogin').val()
+                    },
+                    dataType: 'json',
+                    type: "post",
+                    success: function (status) {
+                        if (status.status == 200) {
+                            location.reload(true)
+                        } else if (status.status == 404) {
+
+                            $('#modellogin').html("Username or Password Incorrect")
+                            $('#modellogin').css("display", "block")
+                        } else {
+                            $('#modellogin').css("display", "none")
+                            $('#modellogin').html(status)
+                            $('#modellogin').css("display", "block")
+                        }
+                    }
+                })
+            })
+        })
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js" integrity="sha512-o6XqxgrUsKmchwy9G5VRNWSSxTS4Urr4loO6/0hYdpWmFUfHqGzawGxeQGMDqYzxjY9sbktPbNlkIQJWagVZQg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- <script src="./assets/js/index.js"></script> -->
+    <script src="~/assets/js/details.js"></script>
+    <script>
+        var input = document.querySelector(".search-input")
+        input.addEventListener("keyup", function () {
+            console.log(input.value)
+            var ul = document.getElementById("search-ul")
+            $(window).click(function () {
+                ul.innerHTML = " "
+            })
+            if (input.value == "") {
+                ul.innerHTML = " "
+            }
+            $.ajax({
+                url: "/home/search",
+                data: {
+                    content: input.value
+                },
+                dataType: 'json',
+                type: "post",
+                success: function (data) {
+
+                    ul.innerHTML = " "
+                    $.map(data, function (val, i) {
+                        var li = this.document.createElement("li")
+                        li.classList.add("list-group-item")
+                        li.style.backgroundColor = "white"
+
+                        li.innerHTML =
+                            `      <a href="https://localhost:44378/restaurant/details/${val.id}" class="d-flex align-items-center ">
+                                                            <div style="width:30%;">
+                                                                <img style="width:100%;" src="/assets/image/${val.image}" />
+                                                            </div>
+                                                            <div style="padding-left:5%;">
+                                                                <h6 style=" margin:0px; font-family:Arial, Helvetica, sans-serif;">${val.name}</h6>
+
+                                                                <p style=" color: gray; margin: 0px;" > ${val.adress}</p>
+
+                                                            </div>
+                                                        </a>`
+                        ul.appendChild(li)
+
+                    })
+
+                },
+                error: function (status) {
+                    console.log(status)
+                }
+            })
+
+        })
+    </script>
+    <script>
+        var inputt = document.getElementById("search_product")
+        var storeid = document.getElementById("restorantid").innerHTML
+        var products = document.querySelector(".products")
+        var a = products.innerHTML
+        inputt.addEventListener("keyup", function () {
+
+            products.innerHTML = " "
+            if (input.value == "") {
+                products.innerHTML = a
+            }
+
+            $.ajax({
+                url: "/restaurant/searchproduct",
+                data: {
+                    id: storeid,
+                    content: inputt.value
+                },
+                dataType: 'json',
+                type: "post",
+                success: function (data) {
+                    var check = document.getElementById("ckeck_search").innerHTML
+                    products.innerHTML = " "
+                    $.map(data, function (val, i) {
+
+
+                        var a = document.createElement("a")
+                        a.style.cursor = "pointer"
+                        if (check == "yes") {
+                            a.classList.add("item-product")
+                        } else {
+                            a.classList.add("item-product-offline")
+                        }
+                        a.setAttribute("id", val.id)
+                        a.innerHTML =
+                            `
+                                            <div style="padding:1% 2%;" class="product">
+                                                        <div class="title-desc-price">
+                                                            <div class="title">
+                                                                <h6>${val.name}</h6>
+                                                            </div>
+                                                            <div class="description">
+                                                                <p>${val.description}</p>
+                                                            </div>
+                                                            <div class="price">
+                                                                AZN ${val.price}
+                                                            </div>
+                                                        </div>
+                                                        <div style="width:35%; height:12rem;" class="img">
+                                                            <img style="height:100%; width:100%;" src="/assets/image/${val.image}" alt="">
+                                                        </div>
+                                                    </div>
+                                                  `
+                        console.log(data)
+                        products.appendChild(a)
+
+                    })
+                },
+                error: function (status) {
+                    console.log(status)
+                }
+            })
+        })
+
+
+    </script>
+
+    <script>
+        var favClick = document.querySelector(".add-favorite")
+        var resId = document.querySelector(".add-favorite").getAttribute("data-id")
+        favClick.addEventListener("click", function (e) {
+            e.preventDefault()
+            console.log(resId)
+            if (!favClick.classList.contains("checked")) {
+                favClick.parentElement.style.background = "#FFC83D"
+                favClick.style.color = "white"
+                favClick.classList.add("checked")
+                $.ajax({
+                    url: "/favorite/AdFavoriteRes",
+                    data: {
+                        id: resId
+                    },
+                    dataType: "json",
+                    type: "post",
+                    success: function (data) {
+
+                    }
+                })
+
+            } else {
+                favClick.parentElement.style.background = "white"
+                favClick.style.color = "black"
+                favClick.classList.remove("checked")
+                $.ajax({
+                    url: "/favorite/removefavoriteres",
+                    data: {
+                        id: resId
+                    },
+                    type: "post",
+                    dataType: "json",
+                    success: function (data) {
+
+                    }
+
+                })
+            }
+        })
+    </script>
+</body>
+
+</html>

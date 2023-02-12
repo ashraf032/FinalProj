@@ -1,0 +1,66 @@
+﻿@model Setting
+@{
+    ViewData["Title"] = "Edit";
+}
+<div style="background-color:gainsboro" class="container">
+    <div class="card-body row">
+        <div class="text text-danger" asp-validation-summary="ModelOnly"></div>
+        <form method="post" class="forms-sample" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-6" style="margin-bottom:40px;" >
+                    <label style="margin-bottom:10px;  font-size:20px;" font-size:20px;" asp-for="@Model.LogoFile">Main Logo</label>
+                    <input asp-for="@Model.LogoFile" accept="image/*" class="form-control">
+                    <span class="mt-2 text text-danger" asp-validation-for="@Model.LogoFile"></span>
+                    <p style="margin-top:15px;">Exsist Logo</p>
+                    <img style="margin-top:15px; display:block;" width="200" src="~/assets/image/@Model.Logo" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-2 ">
+
+                    <label asp-for="@Model.InstagramLink">Instagram Link:</label>
+                    <a class="icon instagram" href="">
+                        <svg style="width: 7%;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0z"></path><path d="M17.338 5.462a1.2 1.2 0 100 2.4 1.2 1.2 0 000-2.4M12 15.333a3.333 3.333 0 110-6.665 3.333 3.333 0 010 6.665m0-8.468a5.135 5.135 0 100 10.27 5.135 5.135 0 000-10.27M12 2c-2.716 0-3.057.012-4.123.061-1.064.047-1.791.216-2.428.464a4.875 4.875 0 00-1.77 1.154 4.875 4.875 0 00-1.154 1.77c-.248.637-.416 1.364-.464 2.428C2.012 8.943 2 9.284 2 12s.012 3.057.061 4.123c.048 1.065.216 1.791.464 2.428a4.875 4.875 0 001.154 1.77 4.875 4.875 0 001.77 1.154c.637.248 1.364.417 2.428.465 1.066.048 1.407.06 4.123.06s3.057-.012 4.123-.06c1.065-.048 1.791-.217 2.428-.465a4.875 4.875 0 001.77-1.154 4.875 4.875 0 001.154-1.77c.248-.637.417-1.363.465-2.428.048-1.066.06-1.407.06-4.123s-.012-3.057-.06-4.123c-.048-1.064-.217-1.791-.465-2.428a4.875 4.875 0 00-1.154-1.77 4.875 4.875 0 00-1.77-1.154c-.637-.248-1.363-.417-2.428-.464C15.057 2.012 14.716 2 12 2m0 1.802c2.67 0 2.986.01 4.041.058.975.044 1.504.207 1.857.344.466.182.799.399 1.15.748.35.351.566.684.748 1.151.137.352.3.881.344 1.856.049 1.055.058 1.371.058 4.041 0 2.67-.009 2.986-.058 4.041-.044.975-.207 1.504-.344 1.857a3.12 3.12 0 01-.748 1.15 3.12 3.12 0 01-1.15.748c-.353.137-.882.3-1.857.344-1.055.049-1.371.058-4.041.058-2.67 0-2.986-.009-4.041-.058-.975-.044-1.504-.207-1.856-.344a3.116 3.116 0 01-1.151-.748 3.133 3.133 0 01-.748-1.15c-.137-.353-.3-.882-.344-1.857-.048-1.055-.058-1.371-.058-4.041 0-2.67.01-2.986.058-4.041.044-.975.207-1.504.344-1.856.182-.467.399-.8.748-1.151a3.129 3.129 0 011.151-.748c.352-.137.881-.3 1.856-.344C9.014 3.812 9.33 3.802 12 3.802" fill="currentColor"></path></svg>
+                    </a>
+                 
+                    <input asp-for="@Model.InstagramLink" type="text" class="form-control">
+                    <span class="mt-2 text text-danger" asp-validation-for="@Model.InstagramLink"></span>
+                </div>
+                <div class="col-md-4 ">
+                    <label asp-for="@Model.FacebbokLink">Facebbok Link: </label>
+                    <a style="width:20%;" class="icon facebook" href="">
+                        <svg style="width: 7%;" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M20 10.061C20 4.505 15.523 0 10 0S0 4.505 0 10.061C0 15.083 3.657 19.245 8.438 20v-7.03h-2.54V10.06h2.54V7.845c0-2.522 1.492-3.915 3.777-3.915 1.094 0 2.238.197 2.238.197v2.476h-1.26c-1.243 0-1.63.775-1.63 1.57v1.888h2.773l-.443 2.908h-2.33V20c4.78-.755 8.437-4.917 8.437-9.939z" fill="currentColor"></path></svg>
+                    </a>
+                    <input asp-for="@Model.FacebbokLink" type="text" class="form-control">
+                    <span class="mt-2 text text-danger" asp-validation-for="@Model.FacebbokLink"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="@Model.TwitterLink">Twitter Link:</label>
+                    <a class="icon twitter" href="">
+                        <svg style="width:7%;" viewBox="0 0 17 15" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M17 2.143c-.637.321-1.275.428-2.019.536.744-.429 1.275-1.072 1.488-1.929-.638.429-1.382.643-2.232.857C13.6.964 12.645.536 11.688.536c-1.806 0-3.4 1.607-3.4 3.535 0 .322 0 .536.107.75A9.75 9.75 0 011.169 1.18C.85 1.714.744 2.25.744 3c0 1.179.637 2.25 1.594 2.893-.532 0-1.063-.214-1.594-.429 0 1.715 1.169 3.107 2.762 3.429C3.188 9 2.87 9 2.55 9c-.212 0-.425 0-.637-.107.424 1.393 1.7 2.464 3.293 2.464-1.169.964-2.656 1.5-4.356 1.5H0c1.594.964 3.4 1.607 5.313 1.607 6.375 0 9.88-5.357 9.88-9.964v-.429c.745-.535 1.382-1.178 1.807-1.928z"></path></svg>
+                    </a>
+                    <input asp-for="@Model.TwitterLink" type="text" class="form-control">
+                    <span class="mt-2 text text-danger" asp-validation-for="@Model.TwitterLink"></span>
+                </div>
+                <div class="col-md-4 ">
+                    <label asp-for="@Model.LInkedinLink">Linkedin Link</label>
+                    <a class="icon linkedin" href="">
+                        <svg style="width:7%;" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor"><path d="M1.894 0C.749 0 0 .813 0 1.882c0 1.045.727 1.883 1.85 1.883h.022c1.167 0 1.893-.838 1.893-1.883C3.743.812 3.039 0 1.894 0M0 15.059h3.765V4.706H0zM12.095 4.706c-1.8 0-2.606.983-3.056 1.671v.033h-.023l.023-.033V4.944H5.647c.046.95 0 10.115 0 10.115H9.04v-5.65c0-.302.023-.603.113-.819.245-.605.802-1.23 1.74-1.23 1.227 0 1.717.928 1.717 2.287v5.412H16v-5.8c0-3.107-1.673-4.553-3.905-4.553"></path></g></svg>
+                    </a>
+                    <input asp-for="@Model.LInkedinLink" type="text" class="form-control">
+                    <span class="mt-2 text text-danger" asp-validation-for="@Model.LInkedinLink"></span>
+                </div>
+            </div>
+            <div class="col-md-12 mt-3">
+                <a class="btn btn-dark" asp-controller="setting" asp-action="index"><i class="fas fa-undo"></i> Back</a>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js" integrity="sha512-o6XqxgrUsKmchwy9G5VRNWSSxTS4Urr4loO6/0hYdpWmFUfHqGzawGxeQGMDqYzxjY9sbktPbNlkIQJWagVZQg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+}
+
+

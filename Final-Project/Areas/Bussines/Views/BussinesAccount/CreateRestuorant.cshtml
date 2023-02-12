@@ -1,0 +1,175 @@
+﻿@model RestuorantRegisterVM
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Register</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <style>
+        @@media (min-width: 1025px) {
+            .h-custom {
+                height: 100vh !important;
+            }
+        }
+
+        .card-registration .select-input.form-control[readonly]:not([disabled]) {
+            font-size: 1rem;
+            line-height: 2.15;
+            padding-left: .75em;
+            padding-right: .75em;
+        }
+
+        .card-registration .select-arrow {
+            top: 13px;
+        }
+
+        .bg-indigo {
+            background-color: #3AA6D4;
+        }
+
+        @@media (min-width: 992px) {
+            .card-registration-2 .bg-indigo {
+                border-top-right-radius: 15px;
+                border-bottom-right-radius: 15px;
+            }
+        }
+
+        @@media (max-width: 991px) {
+            .card-registration-2 .bg-indigo {
+                border-bottom-left-radius: 15px;
+                border-bottom-right-radius: 15px;
+            }
+        }
+    </style>
+</head>
+<body style="background-color: #3aa6d4">
+
+    <section class="h-100 h-custom gradient-custom-2">
+        <form method="post" enctype="multipart/form-data">
+            <div class="alert alert-danger" asp-validation-summary="ModelOnly"></div>
+            <div class="container py-5 h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col-12">
+                        <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+                            <div class="card-body p-0">
+                                <div class="row g-0">
+                                    <div class="col-lg-6">
+                                        <div class="p-5">
+                                            <h3 class="fw-normal mb-5" style="color: #4835d4;">Your Infomation</h3>
+
+                                            <div class="col-md-12 mb-4 pb-2">
+                                                <div class="form-outline">
+                                                    <label class="form-label" asp-for="FullName">FullName</label>
+                                                    <input type="text" asp-for="FullName" class="form-control form-control-lg" />
+                                                    <span class="text text-danger" asp-validation-for="FullName"></span>
+                                                </div>
+                                                <div class="form-outline">
+                                                    <label class="form-label" asp-for="UserName">UserName</label>
+                                                    <input type="text" asp-for="UserName" class="form-control form-control-lg" />
+                                                    <span class="text text-danger" asp-validation-for="UserName"></span>
+                                                </div>
+                                                <div class="form-outline">
+                                                    <label class="form-label" asp-for="Email">Email</label>
+                                                    <input type="text" asp-for="Email" class="form-control form-control-lg" />
+                                                    <span class="text text-danger" asp-validation-for="Email"></span>
+                                                </div>
+                                                <div class="form-outline">
+                                                    <label class="form-label" asp-for="PhoneNumber">Phone Number</label>
+                                                    <input type="tel" asp-for="PhoneNumber" class="form-control form-control-lg" />
+                                                    <span class="text text-danger" asp-validation-for="PhoneNumber"></span>
+                                                </div>
+                                                <div class="form-outline">
+                                                    <label class="form-label" asp-for="Password">Password</label>
+                                                    <input type="password" asp-for="Password" class="form-control form-control-lg" />
+                                                    <span class="text text-danger" asp-validation-for="Password"></span>
+                                                </div>
+                                                <div class="form-outline">
+                                                    <label class="form-label" asp-for="ConfirmPassword">ConfirmPassword</label>
+                                                    <input type="password" asp-for="ConfirmPassword" class="form-control form-control-lg" />
+                                                    <span class="text text-danger" asp-validation-for="ConfirmPassword"></span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 bg-indigo text-white">
+                                        <div class="p-5">
+                                            <h3 class="fw-normal mb-5">Restuorant Details</h3>
+                                            <div class="mb-4 pb-2">
+                                                <div class="form-outline">
+                                                    <label class="form-label" asp-for="RestuorantName">Restuorant Name</label>
+                                                    <input type="text" asp-for="RestuorantName" class="form-control form-control-lg" />
+                                                    <span class="text text-danger" asp-validation-for="RestuorantName"></span>
+                                                </div>
+
+                                                <div class="form-outline">
+                                                    <label class="form-label" asp-for="Adress">Adress</label>
+                                                    <input type="text" asp-for="Adress" class="form-control form-control-lg" />
+                                                    <span class="text text-danger" asp-validation-for="Adress"></span>
+                                                </div>
+                                                <div class="form-outline">
+                                                    <label class="form-label" asp-for="Title">Title</label>
+                                                    <input type="text" asp-for="Title" class="form-control form-control-lg" />
+                                                    <span class="text text-danger" asp-validation-for="Title"></span>
+                                                </div>
+                                                <div class="form-outline">
+                                                    <label class="form-label" asp-for="Description">Description</label>
+                                                    <input type="text" asp-for="Description" class="form-control form-control-lg" />
+                                                    <span class="text text-danger" asp-validation-for="Description"></span>
+                                                </div>
+                                                <div class="form-outline">
+                                                    <label class="form-label" asp-for="WorkTime">WorkTime</label>
+                                                    <input type="text" asp-for="WorkTime" class="form-control form-control-lg" />
+                                                    <span class="text text-danger" asp-validation-for="WorkTime"></span>
+                                                </div>
+                                                <div class="form-outline">
+                                                    <label class="form-label" asp-for="PhoneNumberRestuorant">Phone Number</label>
+                                                    <input type="text" asp-for="PhoneNumberRestuorant" class="form-control form-control-lg" />
+                                                    <span class="text text-danger" asp-validation-for="PhoneNumberRestuorant"></span>
+                                                </div>
+
+                                                <div class="form-outline">
+                                                    <label class="form-label" asp-for="ImageFile">RestuorantImage</label>
+                                                    <input accept="image/*" asp-for="ImageFile" class="form-control form-control-lg" />
+                                                    <span class="text text-danger" asp-validation-for="ImageFile"></span>
+                                                </div>
+                                                <div class="from-outline mb-10">
+                                                    <label class="form-label" asp-for="@Model.CategoryIds">Categories</label>
+                                                    <select class="form-select" asp-for="@Model.CategoryIds">
+                                                        @foreach (var item in ViewBag.Categories)
+                                                        {
+                                                            <option value="@item.Id">@item.Name</option>
+                                                        }
+                                                    </select>
+                                                    <span class="mt-2 text text-danger" asp-validation-for="@Model.CategoryIds"></span>
+                                                </div>
+                                                <div class="form-check d-flex justify-content-start mb-4 pb-3">
+                                                    <input asp-for="Terms" class="form-check-input me-3" type="checkbox" />
+                                                    <label asp-for="Terms" class="form-check-label text-white" for="form2Example3">
+                                                        I do accept the <a href="#!" class="text-white"><u>Terms and Conditions</u></a> of your site.
+                                                    </label>
+                                                    <span class="text text-danger" asp-validation-for="Terms"></span>
+                                                </div>
+
+                                                <button style="border: 1px solid white; color: black; background-color: #C3DEE7 " type="submit" class="btn " data-mdb-ripple-color="dark">Register</button>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js" integrity="sha512-o6XqxgrUsKmchwy9G5VRNWSSxTS4Urr4loO6/0hYdpWmFUfHqGzawGxeQGMDqYzxjY9sbktPbNlkIQJWagVZQg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</body>
+</html>

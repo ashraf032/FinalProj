@@ -1,0 +1,23 @@
+﻿@model Setting
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container">
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">Logo</th>
+                <th scope="col">Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row"><img src="~/assets/image/@Model.Logo" style="object-fit: contain; width: 100px; height: 30px;" /></th>
+                <td><a asp-controller="setting" asp-action="edit" asp-route-id="@Model.Id"><i class="fas fa-edit text text-primary"></i></a></td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+

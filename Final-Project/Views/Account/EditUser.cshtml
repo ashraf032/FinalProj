@@ -1,0 +1,95 @@
+﻿@model EditUserVM
+@{
+    ViewData["Title"] = "EditUser";
+}
+@if (TempData["message"] != null)
+{
+    <div  style="position:absolute;right:3%;   width:30%; z-index:999;" id="mydiv" class="alert alert-primary">@TempData["message"]</div>
+ 
+}
+
+<div class="container mt-5">
+    <div class="row gutters">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="card h-100">
+                <form method="post">
+                    <div class="card-body" style="background-color: #F8F8F8;">
+                        <div class="alert alert-danger" asp-validation-summary="ModelOnly"></div>
+                        <div class="row gutters">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label asp-for="FullName">Full Name</label>
+                                    <input type="text" asp-for="FullName" class="form-control">
+                                    <span class="text text-danger" asp-validation-for="FullName"></span>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label asp-for="UserName">Username</label>
+                                    <input type="text" asp-for="UserName" class="form-control">
+                                    <span class="text text-danger" asp-validation-for="UserName"></span>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label asp-for="Email">Email</label>
+                                    <input type="email" asp-for="Email" class="form-control">
+                                    <span class="text text-danger" asp-validation-for="Email"></span>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label asp-for="PhoneNumber">Phone Number</label>
+                                    <input type="text" asp-for="PhoneNumber" class="form-control">
+                                    <span class="text text-danger" asp-validation-for="PhoneNumber"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row gutters">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label asp-for="CurrentPassword">Current Password</label>
+                                    <input type="text" asp-for="CurrentPassword" class="form-control">
+                                    <span class="text text-danger" asp-validation-for="CurrentPassword"></span>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label asp-for="Password">New Password</label>
+                                    <input type="text" asp-for="Password" class="form-control">
+                                    <span class="text text-danger" asp-validation-for="Password"></span>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label asp-for="ConfirmPassword">Confirm Password</label>
+                                    <input type="text" asp-for="ConfirmPassword" class="form-control">
+                                    <span class="text text-danger" asp-validation-for="ConfirmPassword"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row gutters">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <div class="text-right mt-5 " style=" text-align:end">
+                                    <a asp-controller="home" asp-action="index" id="submit" class="btn btn-secondary">Cancel</a>
+                                    <button style="background-color: #009DE0; color:white;" type="submit" id="submit" class="btn ">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Script{
+    <script>
+        setTimeout(function () {
+            $('#mydiv').fadeOut('fast');
+        }, 1500);
+    </script>
+}

@@ -1,0 +1,94 @@
+﻿@model LoginUserVM
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <style>
+
+        .register {
+            width: 100%;
+            box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+            border-radius: 5px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: gray;
+            transition: .3s;
+        }
+
+            .register:hover {
+                background-color: #DCDCDC;
+                color: #3AA6D4;
+            }
+    </style>
+
+</head>
+<body>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Wolt Bussines Register</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p><a class="register" asp-controller="bussinesaccount" asp-action="createrestuorant">Restaurant</a></p>
+                    <p><a class="register" asp-controller="bussinesaccount" asp-action="createstore">Store</a></p>
+                    <p><a class="register" asp-area="bussines" asp-controller="courier" asp-action="register">Courier</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="vh-100 bg-image" style="background-color: #3AA6D4; height:100%;">
+        <div class="mask d-flex align-items-center h-100 gradient-custom-3" style="">
+            <div class="container h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+
+                        <div class="card" style="border-radius: 15px; ">
+                            <div class="card-body p-5">
+
+                                <h2 class="text-uppercase text-center mb-5"><img style="width:60%;" src="~/assets/image/cdbe7be1-6efd-473c-9f5d-1104414be4a0logo.svg" /><br /><small style=" font-size: 20px; color: #3AA6D4;">Bussines Area</small></h2>
+                                <form method="post">
+                                    <div class="alert alert-danger" asp-validation-summary="ModelOnly"> </div>
+                                    <div class="form-outline mb-4">
+                                        <input type="text" asp-for="UserName" class="form-control form-control-lg" />
+                                        <label class="form-label" asp-for="UserName">UserName</label>
+                                        <span class="text text-danger" asp-validation-for="UserName"></span>
+                                    </div>
+
+                                    <div class="form-outline mb-4">
+                                        <input type="password" asp-for="Password" class="form-control form-control-lg" />
+                                        <label class="form-label" asp-for="Password">Password</label>
+                                        <span class="text text-danger" asp-validation-for="Password"></span>
+                                    </div>
+
+                                    <div class="d-flex justify-content-center">
+                                        <button style="background-color: #3AA6D4; color:white !important;" type="submit" class="btn btn-block btn-lg gradient-custom-4 text-body">Login</button>
+                                    </div>
+
+                                    <p class="text-center text-muted mt-5 mb-0">You do not have an account? <a style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal" class="fw-bold text-body"><u>Register here</u></a></p>
+
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</body>
+</html>
+
+

@@ -1,0 +1,35 @@
+﻿@model ProductCategory
+@{
+    ViewData["Title"] = "EditCategoryRestuorant";
+}
+
+<div class="container">
+    <div class="card-body row">
+        <h1 style="text-align:center; margin-bottom:20px;">Category Create</h1>
+        <form method="post" class="forms-sample">
+            <div class="alert alert-danger" asp-validation-summary="ModelOnly"></div>
+
+            <div>
+                <div style="width:40%;">
+                    <label style="margin-bottom:10px; font-size:20px;" asp-for="@Model.Name">Category Name</label>
+                    <textarea asp-for="@Model.Name" type="text"></textarea>
+                    <span class="mt-2 text text-danger" asp-validation-for="@Model.Name"></span>
+                </div>
+            </div>
+            <div class="col-md-12 mt-3">
+                <a class="btn btn-dark" asp-controller="Category" asp-action="index"><i class="fas fa-undo"></i> Back</a>
+                <button class="btn btn-primary" type="submit">Create</button>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js" integrity="sha512-o6XqxgrUsKmchwy9G5VRNWSSxTS4Urr4loO6/0hYdpWmFUfHqGzawGxeQGMDqYzxjY9sbktPbNlkIQJWagVZQg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+}
+@section Script{
+    <script src="~/ckeditor/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace("Name")
+    </script>
+}

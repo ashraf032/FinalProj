@@ -1,0 +1,382 @@
+﻿@model List<Order>
+@{
+    ViewData["Title"] = "Order";
+
+}
+@section css{
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-family: 'Montserrat';
+            font-weight: normal;
+            color: #444;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .wrapper {
+            width: 90%;
+            margin: 0 auto;
+            max-width: 80rem;
+        }
+
+        .cols {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+        }
+
+        .col {
+            width: calc(25% - 2rem);
+            margin: 1rem;
+            cursor: pointer;
+        }
+
+        .container {
+            -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+            -webkit-perspective: 1000px;
+            perspective: 1000px;
+        }
+
+        .front,
+        .back {
+            background-size: cover;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.25);
+            border-radius: 10px;
+            background-position: center;
+            -webkit-transition: -webkit-transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+            transition: -webkit-transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+            -o-transition: transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+            transition: transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+            transition: transform .7s cubic-bezier(0.4, 0.2, 0.2, 1), -webkit-transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            text-align: center;
+            min-height: 280px;
+            height: auto;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1.5rem;
+        }
+
+        .back {
+            background: #cedce7;
+            background: -webkit-linear-gradient(45deg, #cedce7 0%,#596a72 100%);
+            background: -o-linear-gradient(45deg, #cedce7 0%,#596a72 100%);
+            background: linear-gradient(45deg, #cedce7 0%,#596a72 100%);
+        }
+
+        .front:after {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            content: '';
+            display: block;
+            opacity: .6;
+            background-color: #000;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 10px;
+        }
+
+        .container:hover .front,
+        .container:hover .back {
+            -webkit-transition: -webkit-transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+            transition: -webkit-transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+            -o-transition: transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+            transition: transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+            transition: transform .7s cubic-bezier(0.4, 0.2, 0.2, 1), -webkit-transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+        }
+
+        .back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+        }
+
+        .inner {
+            -webkit-transform: translateY(-50%) translateZ(60px) scale(0.94);
+            transform: translateY(-50%) translateZ(60px) scale(0.94);
+            top: 50%;
+            position: absolute;
+            left: 0;
+            width: 100%;
+            padding: 2rem;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            outline: 1px solid transparent;
+            -webkit-perspective: inherit;
+            perspective: inherit;
+            z-index: 2;
+        }
+
+        .container .back {
+            -webkit-transform: rotateY(180deg);
+            transform: rotateY(180deg);
+            -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+        }
+
+        .container .front {
+            -webkit-transform: rotateY(0deg);
+            transform: rotateY(0deg);
+            -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+        }
+
+        .container:hover .back {
+            -webkit-transform: rotateY(0deg);
+            transform: rotateY(0deg);
+            -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+        }
+
+        .container:hover .front {
+            -webkit-transform: rotateY(-180deg);
+            transform: rotateY(-180deg);
+            -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+        }
+
+        .front .inner p {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+            .front .inner p:after {
+                content: '';
+                width: 4rem;
+                height: 2px;
+                position: absolute;
+                background: #C6D4DF;
+                display: block;
+                left: 0;
+                right: 0;
+                margin: 0 auto;
+                bottom: -.75rem;
+            }
+
+        .front .inner span {
+            color: rgba(255,255,255,0.7);
+            font-family: 'Montserrat';
+            font-weight: 300;
+        }
+
+        @@media screen and (max-width: 64rem) {
+            .col {
+                width: calc(33.333333% - 2rem);
+            }
+        }
+
+        @@media screen and (max-width: 48rem) {
+            .col {
+                width: calc(50% - 2rem);
+            }
+        }
+
+        @@media screen and (max-width: 32rem) {
+            .col {
+                width: 100%;
+                margin: 0 0 2rem 0;
+            }
+        }
+    </style>
+}
+
+<div class="wrapper">
+    <button style="visibility:hidden;" id="btn" onclick="audio.play()" oncclick="audio.resume()">Click Me</button>
+
+    <div class="row">
+        @foreach (Order order in Model)
+        {
+
+            <div class="col-md-4">
+                <div class="col-md-12 mt-3" ontouchstart="this.classList.toggle('hover');">
+                    <div class="container">
+                        <div class="front" style="background-image: url(https://discovery-cdn.wolt.com/cities/ganja/sections/75db22ac-a6b4-11ec-baa9-268787c2c18b_generic_hero_banner_2.png)">
+                            <h4 class="pt-4" style="color:white !important;">@(order.IsDelivery?"Delivery":"Pickup")</h4>
+                            <div class="inner">
+                                <p>Total Price</p>
+                                <span>Azn:@order.TotalPrice</span> <br />
+                            <span>Client Name:@order.AppUser.FullName</span>
+                            </div>
+                        </div>
+                        <div class="back">
+                            <div class="inner">
+                                @if (order.OrderItems != null)
+                                {
+                                    @foreach (OrderItems orderItems in order.OrderItems)
+                                    {
+                                        
+                                        <p>@orderItems.Count X @orderItems.Product.Name</p>
+                                    }
+                                }
+
+                            </div>
+                            @if (order.IsAccept == false)
+                            {
+                                <div class="d-flex justify-content-between">
+                                    <div data-id="@order.Id" style="color:white;" class="btn btn-success accept">Accept</div>
+                                    <div data-id="@order.Id" style="color:white;" class="btn btn-danger reject">reject</div>
+                                </div>
+                            }
+                            else if (order.IsAccept == true && order.OrderComleete == false)
+                            {
+                                <div class="d-flex justify-content-between">
+                                    <div data-id="@order.Id" style="color:white;" class="btn btn-primary ready">Order Ready</div>
+                                </div>
+                            }
+                            else if (order.IsAccept == true && order.OrderComleete == true && order.IsCourierTaked == false && order.IsDelivery)
+                            {
+                                <div class="d-flex justify-content-between">
+                                    <div data-id="@order.Id" style="color:white;" class="btn btn-primary pickucp">Pickuped</div>
+                                </div>
+                            }
+                       
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+
+
+    </div>
+</div>
+
+
+@section Script{
+
+
+
+
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+
+
+
+    <script>
+
+        const audio = new Audio("/assets/Voice/voice.mp3");
+
+
+        audio.setAttribute("allow", "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture")
+
+        var btn = document.querySelector("#btn")
+
+
+        var Connection = new signalR.HubConnectionBuilder().withUrl("/orderhub").build()
+        Connection.start()
+
+        Connection.on("thereisorder", function (data) {
+            console.log(data)
+            OrderShow(data.orderid)
+            btn.click()
+        })
+
+
+        function OrderShow(orderid) {
+            var div = document.createElement("div")
+            var row = document.querySelector(".row")
+            div.classList.add("col-md-4")
+            $.ajax({
+                url: "/bussines/bussinesaccount/showorders",
+                data: {
+                    orderid: orderid,
+
+                },
+                dataType: 'json',
+                type: "post",
+                success: function (data) {
+                    console.log(data)
+                    var a = data.id.toString()
+
+                    div.innerHTML = `
+                          <div class="col-md-12 mt-3" ontouchstart="this.classList.toggle('hover');">
+                            <div class="container">
+                                <div class="front" style="background-image: url(https://discovery-cdn.wolt.com/cities/ganja/sections/75db22ac-a6b4-11ec-baa9-268787c2c18b_generic_hero_banner_2.png)">
+                                    <div class="inner">
+                                        <p>Total Price</p>
+                                        <span>Azn:${data.totalPrice}</span>
+                                    </div>
+                                </div>
+                                <div class="back">
+                                    <div id="${data.id}"  class="inner">
+
+                                    </div>
+                                        <div class="d-flex justify-content-between status-button">
+                                        <div data-id="${data.id}" style="color:white;" class="btn btn-success accept" >Accept</div>
+                                        <div data-id="${data.id}" style="color:white;" class="btn btn-danger reject" >reject</div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+`
+                    var p;
+                    row.appendChild(div)
+                    var Productparent = document.getElementById(a)
+                    $.map(data.orderItems, function (val, i) {
+                       
+                        p = document.createElement("p")
+                        p.innerHTML = `${val.count} x ${val.product.name} ${val.product.price}:AZN`
+                        Productparent.appendChild(p)
+                    })
+
+
+                }
+            })
+        }
+        $(document).on("click", ".accept", function (e) {
+            var orderid = $(e.target).attr('data-id')
+            Connection.invoke("OrderAccept", orderid)
+            var a = $(this).parent()
+            a.html(`<div data-id="${orderid}" style="color:white;" class="btn btn-primary ready" >Order Ready</div>
+
+`)
+
+        })
+        $(document).on("click", ".reject", function (e) {
+            var orderid = $(e.target).attr('data-id')
+            Connection.invoke("OrderReject", orderid)
+            var a = $(this).parent().parent().parent()
+            a.css("display", "none")
+
+        })
+        $(document).on("click", ".ready", function (e) {
+            var orderid = $(e.target).attr('data-id')
+            Connection.invoke("OrderReady", orderid)
+            var a = $(this).parent()
+            a.html(`<div data-id="${orderid}" style="color:white;" class="btn btn-primary pickucp" >Pickuped</div>
+
+`)
+        })
+        $(document).on("click", ".pickucp", function (e) {
+            var orderid = $(e.target).attr('data-id')
+            Connection.invoke("Order", orderid)
+            var a = $(this).parent().parent().parent()
+            a.css("display", "none")
+        })
+
+
+
+
+    </script>
+
+}

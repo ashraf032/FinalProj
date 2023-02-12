@@ -1,0 +1,103 @@
+﻿@model RegisterCourierVM
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <style>
+
+        .register {
+            width: 100%;
+            box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+            border-radius: 5px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: gray;
+            transition: .3s;
+        }
+
+            .register:hover {
+                background-color: #DCDCDC;
+                color: #3AA6D4;
+            }
+    </style>
+
+</head>
+<body style="background-color: #3AA6D4;">
+
+    <section class="vh-100 bg-image" style="background-color: #3AA6D4; height:100%;">
+        <div class="mask d-flex align-items-center h-100 gradient-custom-3" style="">
+            <div class="container h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+
+                        <div class="card" style="border-radius: 15px; ">
+                            <div class="card-body p-5">
+
+                                <h2 class="text-uppercase text-center mb-5"><img style="width:60%;" src="~/assets/image/cdbe7be1-6efd-473c-9f5d-1104414be4a0logo.svg" /><br /><small style=" font-size: 20px; color: #3AA6D4;">Courier Register Area</small></h2>
+                                <form method="post">
+                                    <div class="alert alert-danger" asp-validation-summary="ModelOnly"> </div>
+                                    <div class="form-outline mb-4">
+                                        <label class="form-label" asp-for="FullName">FullName</label>
+                                        <input type="text" asp-for="FullName" class="form-control form-control-lg" />
+                                        <span class="text text-danger" asp-validation-for="FullName"></span>
+                                    </div>
+
+                                    <div class="form-outline mb-4">
+                                        <label class="form-label" asp-for="UserName">UserName</label>
+                                        <input type="text" asp-for="UserName" class="form-control form-control-lg" />
+                                        <span class="text text-danger" asp-validation-for="UserName"></span>
+                                    </div>
+                                    <div class="form-outline mb-4">
+                                        <label class="form-label" asp-for="PhoneNumber">PhoneNumber</label>
+                                        <input type="tel" asp-for="PhoneNumber" class="form-control form-control-lg" />
+                                        <span class="text text-danger" asp-validation-for="PhoneNumber"></span>
+                                    </div>
+                                    <div class="form-outline mb-4">
+                                        <label class="form-label" asp-for="Email">Email</label>
+                                        <input type="email" asp-for="Email" class="form-control form-control-lg" />
+                                        <span class="text text-danger" asp-validation-for="Email"></span>
+                                    </div>
+
+
+                                    <div class="form-outline mb-4">
+                                        <label class="form-label" asp-for="Password">Password</label>
+                                        <input type="password" asp-for="Password" class="form-control form-control-lg" />
+                                        <span class="text text-danger" asp-validation-for="Password"></span>
+                                    </div>
+
+                                    <div class="form-outline mb-4">
+                                        <label class="form-label" asp-for="ConfirmPassword">ConfirmPassword</label>
+                                        <input type="password" asp-for="ConfirmPassword" class="form-control form-control-lg" />
+                                        <span class="text text-danger" asp-validation-for="ConfirmPassword"></span>
+                                    </div>
+
+                                    <div class="d-flex justify-content-center">
+                                        <button style="background-color: #3AA6D4; color:white !important;" type="submit" class="btn btn-block btn-lg gradient-custom-4 text-body">Login</button>
+                                    </div>
+
+
+
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js" integrity="sha512-o6XqxgrUsKmchwy9G5VRNWSSxTS4Urr4loO6/0hYdpWmFUfHqGzawGxeQGMDqYzxjY9sbktPbNlkIQJWagVZQg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</body>
+</html>
